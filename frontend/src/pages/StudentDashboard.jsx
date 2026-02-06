@@ -187,7 +187,8 @@ const StudentDashboard = () => {
 
     return (
         <DashboardLayout title="Student Portal">
-            <Grid container spacing={{ xs: 2, md: 4 }}>
+            <Container maxWidth="lg" sx={{ mb: { xs: 8, md: 0 } }}>
+                <Grid container spacing={{ xs: 2, md: 4 }}>
                 {/* Access Pass Section */}
                 <Grid size={{ xs: 12, md: 4 }} sx={{ overflow: 'visible' }}>
                     <Box sx={{
@@ -202,29 +203,36 @@ const StudentDashboard = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             overflow: 'visible',
-                            borderRadius: 3,
-                            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-                            mb: { xs: 4, md: 0 } // Add margin bottom on mobile
+                            borderRadius: { xs: 2, md: 3 },
+                            boxShadow: { 
+                                xs: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                                md: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+                            },
+                            mb: { xs: 3, md: 0 },
+                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
                         }}>
                             {/* Pass Header */}
                             <Box sx={{
-                                background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
-                                p: 3,
-                                borderTopLeftRadius: 12,
-                                borderTopRightRadius: 12,
+                                background: 'rgba(255, 255, 255, 0.1)',
+                                backdropFilter: 'blur(10px)',
+                                p: { xs: 2, sm: 3 },
+                                borderTopLeftRadius: { xs: 2, md: 3 },
+                                borderTopRightRadius: { xs: 2, md: 3 },
                                 color: 'white',
                                 textAlign: 'center',
-                                position: 'relative'
+                                position: 'relative',
+                                borderBottom: '1px solid rgba(255, 255, 255, 0.2)'
                             }}>
-                                <Box sx={{
-                                    position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)',
-                                    bgcolor: 'secondary.main', color: 'white', px: 2, py: 0.5, borderRadius: 20,
-                                    fontWeight: 700, fontSize: '0.75rem', letterSpacing: '0.1em', boxShadow: 3
-                                }}>
-                                    DIGITAL ACCESS PASS
-                                </Box>
-                                <Typography variant="h6" fontWeight={700} sx={{ mt: 1, letterSpacing: 1 }}>
-                                    T.J.S ENGINEERING COLLEGE
+                                <Typography 
+                                    variant="h5" 
+                                    component="h2" 
+                                    sx={{ 
+                                        fontWeight: 800,
+                                        mb: 0.5,
+                                        fontSize: { xs: '1.2rem', sm: '1.5rem' }
+                                    }}
+                                >
+                                    Meal Access Pass
                                 </Typography>
                                 <Typography variant="caption" sx={{ opacity: 0.7, letterSpacing: 2 }}>SMART MESS SYSTEM</Typography>
                             </Box>
@@ -393,6 +401,7 @@ const StudentDashboard = () => {
                                             setCurrentHistoryIndex(0);
                                             setShowHistoryDialog(true);
                                         }}
+                                        data-testid="history-button"
                                         startIcon={<HistoryIcon />}
                                         sx={{ minWidth: 'auto' }}
                                     >
@@ -482,6 +491,7 @@ const StudentDashboard = () => {
                     </Paper>
                 </Grid>
             </Grid>
+            </Container>
 
             {/* Ticket Dialog */}
             <Dialog
