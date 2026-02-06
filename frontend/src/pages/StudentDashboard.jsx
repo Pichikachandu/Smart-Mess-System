@@ -35,9 +35,9 @@ const StudentDashboard = () => {
         const minutes = now.getMinutes();
         const time = hour + minutes / 60;
 
-        if (ticket.mealType === 'BREAKFAST' && time >= 10.5) return true;
-        if (ticket.mealType === 'LUNCH' && time >= 15.5) return true;
-        if (ticket.mealType === 'DINNER' && time >= 22.5) return true;
+        if (ticket.mealType === 'BREAKFAST' && time >= 10.0) return true;
+        if (ticket.mealType === 'LUNCH' && time >= 14.0) return true;
+        if (ticket.mealType === 'DINNER' && time >= 22.0) return true;
         return false;
     };
 
