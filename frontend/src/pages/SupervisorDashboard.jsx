@@ -12,15 +12,16 @@ import FlashOffIcon from '@mui/icons-material/FlashOff';
 const SupervisorDashboard = () => {
     const [scanResult, setScanResult] = useState(null); // { status: 'ALLOWED'|'DENIED', student: {...}, reason: '' }
     const [loading, setLoading] = useState(false);
-    const [cooldown, setCooldown] = useState(false);
+    const [lastScannedQR, setLastScannedQR] = useState(null); // Track last scanned QR to prevent duplicates
     const [resultAnimation, setResultAnimation] = useState(false); // For transition effect
 
     const handleScan = async (results) => {
-        if (loading || cooldown || !results || results.length === 0) return;
+        if (loading || !results || results.length === 0) return;
 
         const rawValue = results[0].rawValue;
-        if (!rawValue) return;
+        if (!rawValue || rawValue === lastScannedQR) return; // Prevent duplicate scans
 
+        setLastScannedQR(rawValue);
         setLoading(true);
         try {
             const { data } = await api.post('/supervisor/scan', { qrPayload: rawValue });
@@ -35,16 +36,13 @@ const SupervisorDashboard = () => {
             setResultAnimation(true);
         } finally {
             setLoading(false);
-            setCooldown(true);
         }
     };
 
     const resetScan = () => {
         setResultAnimation(false);
-        setTimeout(() => {
-            setScanResult(null);
-            setCooldown(false);
-        }, 300); // Wait for exit animation
+        setScanResult(null);
+        setLastScannedQR(null); // Allow scanning new QR codes
     };
 
     return (

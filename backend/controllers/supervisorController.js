@@ -17,6 +17,7 @@ const getCurrentMealType = () => {
 const validateMeal = async (req, res) => {
     const { qrPayload } = req.body;
     const supervisorId = req.user._id;
+    const io = req.app.get('io');
 
     const currentMeal = getCurrentMealType();
 
@@ -44,7 +45,9 @@ const validateMeal = async (req, res) => {
 
         // 3. User Active Status
         if (!user.isActive) {
-            await logMeal(user._id, mealType, supervisorId, 'DENIED', 'Account Disabled');
+            const mealLog = await logMeal(user._id, mealType, supervisorId, 'DENIED', 'Account Disabled');
+            // Emit real-time update
+            io.to(`user-${user._id}`).emit('mealLogCreated', mealLog);
             return res.status(400).json({ status: 'DENIED', reason: 'Account Disabled' });
         }
 
@@ -54,7 +57,9 @@ const validateMeal = async (req, res) => {
         const today = days[new Date().getDay()];
 
         if (!user.validDays.includes(today.toUpperCase())) {
-            await logMeal(user._id, mealType, supervisorId, 'DENIED', 'Invalid Day');
+            const mealLog = await logMeal(user._id, mealType, supervisorId, 'DENIED', 'Invalid Day');
+            // Emit real-time update
+            io.to(`user-${user._id}`).emit('mealLogCreated', mealLog);
             return res.status(400).json({ status: 'DENIED', reason: `Not valid for ${today}` });
         }
 
@@ -70,12 +75,17 @@ const validateMeal = async (req, res) => {
         });
 
         if (existingLog) {
-            await logMeal(user._id, mealType, supervisorId, 'DENIED', 'Already Consumed');
+            const mealLog = await logMeal(user._id, mealType, supervisorId, 'DENIED', 'Already Consumed');
+            // Emit real-time update
+            io.to(`user-${user._id}`).emit('mealLogCreated', mealLog);
             return res.status(400).json({ status: 'DENIED', reason: 'Already Consumed' });
         }
 
         // 6. Success
-        await logMeal(user._id, mealType, supervisorId, 'ALLOWED', 'Access Granted');
+        const mealLog = await logMeal(user._id, mealType, supervisorId, 'ALLOWED', 'Access Granted');
+
+        // Emit real-time update
+        io.to(`user-${user._id}`).emit('mealLogCreated', mealLog);
 
         // Optionally invalidate token after use to prevent replay within 5 mins?
         // token.expiresAt = new Date(); 
@@ -105,7 +115,7 @@ const validateMeal = async (req, res) => {
 
 async function logMeal(userId, mealType, supervisorId, status, reason) {
     const todayDateStr = new Date().toISOString().split('T')[0];
-    await MealLog.create({
+    const mealLog = await MealLog.create({
         userId,
         date: todayDateStr,
         mealType,
@@ -113,6 +123,10 @@ async function logMeal(userId, mealType, supervisorId, status, reason) {
         status,
         reason
     });
+
+    // Populate supervisor data for real-time updates
+    await mealLog.populate('supervisorId', 'name');
+    return mealLog;
 }
 
 module.exports = { validateMeal };

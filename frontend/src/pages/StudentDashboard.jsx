@@ -4,6 +4,7 @@ import { QRCodeCanvas } from 'qrcode.react';
 import api from '../utils/api';
 import AuthContext from '../context/AuthContext';
 import DashboardLayout from '../components/DashboardLayout';
+import { initializeSocket, disconnectSocket } from '../utils/socket';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import HistoryIcon from '@mui/icons-material/History';
@@ -41,6 +42,25 @@ const StudentDashboard = () => {
 
     useEffect(() => {
         fetchHistory();
+
+        // Initialize socket connection for real-time updates
+        const token = sessionStorage.getItem('token');
+        if (token) {
+            const socket = initializeSocket(token);
+
+            // Listen for meal log creation events
+            socket.on('mealLogCreated', (mealLog) => {
+                console.log('New meal log received:', mealLog);
+                // Refresh history to show the new ticket
+                fetchHistory();
+            });
+
+            // Cleanup on unmount
+            return () => {
+                socket.off('mealLogCreated');
+                disconnectSocket();
+            };
+        }
     }, []);
 
     useEffect(() => {
