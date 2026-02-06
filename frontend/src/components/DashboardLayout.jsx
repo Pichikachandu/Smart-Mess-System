@@ -13,7 +13,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AuthContext from '../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
-import MobileBottomNav from './MobileBottomNav';
 
 const drawerWidth = 240;
 
@@ -37,7 +36,6 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
             marginLeft: '0 !important',
             width: '100% !important',
             padding: theme.spacing(2),
-            paddingBottom: theme.spacing(8), // Add padding for bottom nav
             overflowX: 'hidden'
         },
     }),
@@ -60,7 +58,6 @@ const AppBarStyled = styled(AppBar, { shouldForwardProp: (prop) => prop !== 'ope
         [theme.breakpoints.down('md')]: {
             width: '100% !important',
             marginLeft: '0 !important',
-            display: 'none', // Hide app bar on mobile for students
         }
     }),
 );
@@ -172,70 +169,67 @@ const DashboardLayout = ({ children, title }) => {
 
     return (
         <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
-            {/* Desktop AppBar */}
-            {isDesktop && (
-                <AppBarStyled
-                    position="fixed"
-                    open={isDesktop && open}
-                    elevation={0}
-                    sx={{
-                        bgcolor: 'white',
-                        color: 'text.primary',
-                        borderBottom: '1px solid',
-                        borderColor: 'divider',
-                        width: isDesktop && open ? `calc(100% - ${drawerWidth}px)` : '100%',
-                        ml: isDesktop && open ? `${drawerWidth}px` : 0
-                    }}
-                >
-                    <Toolbar>
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={handleDrawerToggle}
-                            edge="start"
-                            sx={{ mr: 2, ...(isDesktop && open && { display: 'none' }) }}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, fontWeight: 700 }}>
-                            {title || 'T.J.S Engineering College'}
-                        </Typography>
+            <AppBarStyled
+                position="fixed"
+                open={isDesktop && open}
+                elevation={0}
+                sx={{
+                    bgcolor: 'white',
+                    color: 'text.primary',
+                    borderBottom: '1px solid',
+                    borderColor: 'divider',
+                    width: isDesktop && open ? `calc(100% - ${drawerWidth}px)` : '100%',
+                    ml: isDesktop && open ? `${drawerWidth}px` : 0
+                }}
+            >
+                <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={handleDrawerToggle}
+                        edge="start"
+                        sx={{ mr: 2, ...(isDesktop && open && { display: 'none' }) }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, fontWeight: 700 }}>
+                        {title || 'T.J.S Engineering College'}
+                    </Typography>
 
-                        <div>
-                            <IconButton
-                                size="large"
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleMenu}
-                                color="inherit"
-                            >
-                                <AccountCircleIcon />
-                            </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorEl}
-                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                keepMounted
-                                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                open={Boolean(anchorEl)}
-                                onClose={handleClose}
-                                PaperProps={{
-                                    elevation: 0,
-                                    sx: {
-                                        overflow: 'visible',
-                                        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                                        mt: 1.5,
-                                    },
-                                }}
-                            >
-                                <MenuItem disabled sx={{ fontWeight: 600 }}>{user?.name}</MenuItem>
-                                <MenuItem onClick={logout}>Sign Out</MenuItem>
-                            </Menu>
-                        </div>
-                    </Toolbar>
-                </AppBarStyled>
-            )}
+                    <div>
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleMenu}
+                            color="inherit"
+                        >
+                            <AccountCircleIcon />
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorEl}
+                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                            keepMounted
+                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                            PaperProps={{
+                                elevation: 0,
+                                sx: {
+                                    overflow: 'visible',
+                                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                    mt: 1.5,
+                                },
+                            }}
+                        >
+                            <MenuItem disabled sx={{ fontWeight: 600 }}>{user?.name}</MenuItem>
+                            <MenuItem onClick={logout}>Sign Out</MenuItem>
+                        </Menu>
+                    </div>
+                </Toolbar>
+            </AppBarStyled>
 
             {/* Desktop Persistent Drawer */}
             {isDesktop ? (
@@ -258,35 +252,30 @@ const DashboardLayout = ({ children, title }) => {
                     {drawerContent}
                 </Drawer>
             ) : (
-                /* No sidebar on mobile for students */
-                user?.role !== 'STUDENT' && (
-                    <Drawer
-                        variant="temporary"
-                        open={mobileOpen}
-                        onClose={handleDrawerToggle}
-                        ModalProps={{ keepMounted: true }} // Better open performance on mobile.
-                        sx={{
-                            display: { xs: 'block', md: 'none' },
-                            '& .MuiDrawer-paper': {
-                                boxSizing: 'border-box',
-                                width: drawerWidth,
-                                bgcolor: 'primary.main',
-                                color: 'primary.contrastText',
-                            },
-                        }}
-                    >
-                        {drawerContent}
-                    </Drawer>
-                )
+                /* Mobile Temporary Drawer */
+                <Drawer
+                    variant="temporary"
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    ModalProps={{ keepMounted: true }} // Better open performance on mobile.
+                    sx={{
+                        display: { xs: 'block', md: 'none' },
+                        '& .MuiDrawer-paper': {
+                            boxSizing: 'border-box',
+                            width: drawerWidth,
+                            bgcolor: 'primary.main',
+                            color: 'primary.contrastText',
+                        },
+                    }}
+                >
+                    {drawerContent}
+                </Drawer>
             )}
 
             <Main open={isDesktop && open}>
-                {isDesktop && <DrawerHeader />}
+                <DrawerHeader />
                 {children}
             </Main>
-
-            {/* Mobile Bottom Navigation */}
-            <MobileBottomNav />
         </Box>
     );
 };

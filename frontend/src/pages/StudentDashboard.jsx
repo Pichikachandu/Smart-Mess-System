@@ -187,8 +187,7 @@ const StudentDashboard = () => {
 
     return (
         <DashboardLayout title="Student Portal">
-            <Container maxWidth="lg" sx={{ mb: { xs: 8, md: 0 } }}>
-                <Grid container spacing={{ xs: 2, md: 4 }}>
+            <Grid container spacing={{ xs: 2, md: 4 }}>
                 {/* Access Pass Section */}
                 <Grid size={{ xs: 12, md: 4 }} sx={{ overflow: 'visible' }}>
                     <Box sx={{
@@ -203,107 +202,46 @@ const StudentDashboard = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             overflow: 'visible',
-                            borderRadius: { xs: 2, md: 3 },
-                            boxShadow: { 
-                                xs: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-                                md: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
-                            },
-                            mb: { xs: 3, md: 0 },
-                            background: 'linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #581c87 100%)'
+                            borderRadius: 3,
+                            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                            mb: { xs: 4, md: 0 } // Add margin bottom on mobile
                         }}>
                             {/* Pass Header */}
                             <Box sx={{
-                                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%)',
-                                backdropFilter: 'blur(15px)',
-                                p: { xs: 2, sm: 3 },
-                                borderTopLeftRadius: { xs: 2, md: 3 },
-                                borderTopRightRadius: { xs: 2, md: 3 },
+                                background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
+                                p: 3,
+                                borderTopLeftRadius: 12,
+                                borderTopRightRadius: 12,
                                 color: 'white',
                                 textAlign: 'center',
-                                position: 'relative',
-                                borderBottom: '1px solid rgba(255, 255, 255, 0.2)'
+                                position: 'relative'
                             }}>
-                                <Typography 
-                                    variant="h5" 
-                                    component="h2" 
-                                    sx={{ 
-                                        fontWeight: 800,
-                                        mb: 0.5,
-                                        fontSize: { xs: '1.2rem', sm: '1.5rem' },
-                                        textShadow: '0 2px 4px rgba(0,0,0,0.3)'
-                                    }}
-                                >
-                                    Meal Access Pass
-                                </Typography>
-                                <Typography variant="caption" sx={{ 
-                                    opacity: 0.9, 
-                                    letterSpacing: 3,
-                                    fontWeight: 600,
-                                    textShadow: '0 1px 2px rgba(0,0,0,0.3)'
+                                <Box sx={{
+                                    position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)',
+                                    bgcolor: 'secondary.main', color: 'white', px: 2, py: 0.5, borderRadius: 20,
+                                    fontWeight: 700, fontSize: '0.75rem', letterSpacing: '0.1em', boxShadow: 3
                                 }}>
-                                    SMART MESS SYSTEM
+                                    DIGITAL ACCESS PASS
+                                </Box>
+                                <Typography variant="h6" fontWeight={700} sx={{ mt: 1, letterSpacing: 1 }}>
+                                    T.J.S ENGINEERING COLLEGE
                                 </Typography>
+                                <Typography variant="caption" sx={{ opacity: 0.7, letterSpacing: 2 }}>SMART MESS SYSTEM</Typography>
                             </Box>
 
                             {/* Pass Body */}
-                            <CardContent sx={{ 
-                                flexGrow: 1, 
-                                display: 'flex', 
-                                flexDirection: 'column', 
-                                alignItems: 'center', 
-                                p: { xs: 3, sm: 4 }, 
-                                pt: { xs: 3, sm: 5 },
-                                background: 'linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.98) 100%)'
-                            }}>
+                            <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', p: 4, pt: 5 }}>
                                 {/* User Info Compact */}
                                 <Box sx={{ textAlign: 'center', mb: 4 }}>
-                                    <Typography 
-                                        variant="h5" 
-                                        fontWeight={800} 
-                                        sx={{
-                                            background: 'linear-gradient(135deg, #1e3a8a 0%, #581c87 100%)',
-                                            WebkitBackgroundClip: 'text',
-                                            WebkitTextFillColor: 'transparent',
-                                            mb: 1
-                                        }}
-                                    >
+                                    <Typography variant="h5" fontWeight={800} color="text.primary">
                                         {user?.name}
                                     </Typography>
-                                    <Typography 
-                                        variant="body2" 
-                                        fontWeight={600} 
-                                        sx={{ 
-                                            letterSpacing: '0.05em',
-                                            color: '#64748b'
-                                        }}
-                                    >
+                                    <Typography variant="body2" color="text.secondary" fontWeight={500} sx={{ letterSpacing: '0.05em' }}>
                                         {user?.userId} • {user?.department}
                                     </Typography>
                                     <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1, mt: 1.5 }}>
-                                        <Chip 
-                                            label={user?.residentType} 
-                                            size="small" 
-                                            sx={{ 
-                                                height: 24, 
-                                                fontSize: '0.7rem', 
-                                                fontWeight: 700,
-                                                background: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)',
-                                                color: '#1e40af',
-                                                border: '1px solid #93c5fd'
-                                            }} 
-                                        />
-                                        <Chip 
-                                            label={user?.mealType} 
-                                            size="small" 
-                                            sx={{ 
-                                                height: 24, 
-                                                fontSize: '0.7rem', 
-                                                fontWeight: 700,
-                                                background: 'linear-gradient(135deg, #fed7aa 0%, #fdba74 100%)',
-                                                color: '#c2410c',
-                                                border: '1px solid #fb923c'
-                                            }} 
-                                        />
+                                        <Chip label={user?.residentType} size="small" sx={{ height: 20, fontSize: '0.65rem', fontWeight: 700, bgcolor: 'primary.50', color: 'primary.700' }} />
+                                        <Chip label={user?.mealType} size="small" sx={{ height: 20, fontSize: '0.65rem', fontWeight: 700, bgcolor: 'orange.50', color: 'orange.800' }} />
                                     </Box>
                                     
                                     {/* Current Meal Service Indicator */}
@@ -316,27 +254,13 @@ const StudentDashboard = () => {
                                                         label={`${currentMeal} Service Active`}
                                                         size="small"
                                                         sx={{ 
-                                                            height: 28, 
-                                                            fontSize: '0.75rem', 
+                                                            height: 24, 
+                                                            fontSize: '0.7rem', 
                                                             fontWeight: 700,
-                                                            px: 2,
-                                                            background: currentMeal === 'BREAKFAST' 
-                                                                ? 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)'
-                                                                : currentMeal === 'LUNCH' 
-                                                                    ? 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)'
-                                                                    : 'linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%)',
-                                                            color: currentMeal === 'BREAKFAST' 
-                                                                ? '#b45309'
-                                                                : currentMeal === 'LUNCH' 
-                                                                    ? '#065f46'
-                                                                    : '#5b21b6',
-                                                            border: '1px solid',
-                                                            borderColor: currentMeal === 'BREAKFAST' 
-                                                                ? '#f59e0b'
-                                                                : currentMeal === 'LUNCH' 
-                                                                    ? '#10b981'
-                                                                    : '#8b5cf6',
-                                                            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                                                            bgcolor: currentMeal === 'BREAKFAST' ? 'orange.100' : 
+                                                                      currentMeal === 'LUNCH' ? 'blue.100' : 'indigo.100',
+                                                            color: currentMeal === 'BREAKFAST' ? 'orange.800' : 
+                                                                   currentMeal === 'LUNCH' ? 'blue.800' : 'indigo.800'
                                                         }} 
                                                     />
                                                 </Box>
@@ -348,14 +272,11 @@ const StudentDashboard = () => {
                                                         label="No Meal Service"
                                                         size="small"
                                                         sx={{ 
-                                                            height: 28, 
-                                                            fontSize: '0.75rem', 
+                                                            height: 24, 
+                                                            fontSize: '0.7rem', 
                                                             fontWeight: 700,
-                                                            px: 2,
-                                                            background: 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)',
-                                                            color: '#475569',
-                                                            border: '1px solid #cbd5e1',
-                                                            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                                                            bgcolor: 'grey.100',
+                                                            color: 'grey.600'
                                                         }} 
                                                     />
                                                 </Box>
@@ -366,25 +287,16 @@ const StudentDashboard = () => {
 
                                 {/* QR Code Area */}
                                 <Box
-                                    data-testid="qr-code-area"
-                                    data-qr-active={qrData ? 'true' : 'false'}
                                     onClick={() => qrData && setShowActiveTokenDialog(true)}
                                     sx={{
-                                        p: 3,
+                                        p: 2,
                                         border: '2px dashed',
-                                        borderColor: qrData ? '#8b5cf6' : '#cbd5e1',
-                                        borderRadius: 3,
-                                        bgcolor: qrData 
-                                            ? 'linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%)' 
-                                            : 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
+                                        borderColor: qrData ? 'primary.main' : 'divider',
+                                        borderRadius: 2,
+                                        bgcolor: qrData ? 'white' : 'grey.50',
                                         position: 'relative',
                                         cursor: qrData ? 'pointer' : 'default',
-                                        transition: 'all 0.3s ease',
-                                        '&:hover': qrData ? { 
-                                            borderColor: '#7c3aed',
-                                            boxShadow: '0 8px 25px rgba(139, 92, 246, 0.15)',
-                                            transform: 'translateY(-2px)'
-                                        } : {}
+                                        '&:hover': qrData ? { borderColor: 'primary.dark', boxShadow: 2 } : {}
                                     }}
                                 >
                                     {qrData ? (
@@ -397,57 +309,25 @@ const StudentDashboard = () => {
                                             />
                                             <Tooltip title="Click to view full size">
                                                 <IconButton
-                                                    sx={{ 
-                                                        position: 'absolute', 
-                                                        top: 12, 
-                                                        right: 12, 
-                                                        bgcolor: 'white', 
-                                                        boxShadow: '0 4px 12px rgba(0,0,0,0.15)', 
-                                                        '&:hover': { 
-                                                            bgcolor: '#f3e8ff',
-                                                            color: '#7c3aed'
-                                                        } 
-                                                    }}
+                                                    sx={{ position: 'absolute', top: 8, right: 8, bgcolor: 'white', boxShadow: 1, '&:hover': { bgcolor: 'grey.100' } }}
                                                     size="small"
                                                 >
                                                     <FullscreenIcon fontSize="small" />
                                                 </IconButton>
                                             </Tooltip>
                                             <Box sx={{
-                                                position: 'absolute', 
-                                                bottom: -20, 
-                                                left: '50%', 
-                                                transform: 'translateX(-50%)',
-                                                background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
-                                                color: 'white', 
-                                                px: 2, 
-                                                py: 1, 
-                                                borderRadius: 2,
-                                                display: 'flex', 
-                                                alignItems: 'center', 
-                                                gap: 0.5, 
-                                                boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)',
-                                                fontWeight: 700,
-                                                fontSize: '0.8rem'
+                                                position: 'absolute', bottom: -16, left: '50%', transform: 'translateX(-50%)',
+                                                bgcolor: 'error.main', color: 'white', px: 1.5, py: 0.25, borderRadius: 1,
+                                                display: 'flex', alignItems: 'center', gap: 0.5, boxShadow: 2
                                             }}>
-                                                <AccessTimeIcon sx={{ fontSize: 16 }} />
-                                                {formatTime(timeLeft)}
+                                                <AccessTimeIcon sx={{ fontSize: 14 }} />
+                                                <Typography variant="caption" fontWeight={700}>{formatTime(timeLeft)}</Typography>
                                             </Box>
                                         </>
                                     ) : (
-                                        <Box sx={{ 
-                                            width: Math.min(180, windowSize * 0.4), 
-                                            height: Math.min(180, windowSize * 0.4), 
-                                            display: 'flex', 
-                                            flexDirection: 'column', 
-                                            alignItems: 'center', 
-                                            justifyContent: 'center',
-                                            color: '#94a3b8'
-                                        }}>
-                                            <QrCodeScannerIcon sx={{ fontSize: 56, mb: 2, opacity: 0.6 }} />
-                                            <Typography variant="body2" fontWeight={600} sx={{ color: '#64748b' }}>
-                                                Ready to Generate
-                                            </Typography>
+                                        <Box sx={{ width: Math.min(180, windowSize * 0.4), height: Math.min(180, windowSize * 0.4), display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'text.disabled' }}>
+                                            <QrCodeScannerIcon sx={{ fontSize: 48, mb: 1, opacity: 0.5 }} />
+                                            <Typography variant="caption" fontWeight={500}>Ready to Generate</Typography>
                                         </Box>
                                     )}
                                 </Box>
@@ -457,16 +337,14 @@ const StudentDashboard = () => {
                                 {/* Error Display */}
                                 {error && (
                                     <Box sx={{ 
-                                        mt: 3, 
-                                        p: 3, 
-                                        background: 'linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)',
-                                        border: '1px solid #fecaca',
-                                        borderRadius: 3,
-                                        fontSize: '0.9rem',
-                                        fontWeight: 600,
-                                        textAlign: 'center',
-                                        color: '#b91c1c',
-                                        boxShadow: '0 4px 12px rgba(239, 68, 68, 0.1)'
+                                        mt: 2, 
+                                        p: 2, 
+                                        bgcolor: 'error.light', 
+                                        color: 'error.dark',
+                                        borderRadius: 2,
+                                        fontSize: '0.875rem',
+                                        fontWeight: 500,
+                                        textAlign: 'center'
                                     }}>
                                         {error}
                                     </Box>
@@ -480,33 +358,12 @@ const StudentDashboard = () => {
                                     disabled={!!qrData}
                                     startIcon={!qrData ? <QrCodeScannerIcon /> : <CheckCircleIcon />}
                                     sx={{
-                                        mt: error ? 3 : 5,
-                                        borderRadius: 3,
-                                        py: 2,
-                                        fontSize: '1rem',
-                                        fontWeight: 700,
-                                        textTransform: 'none',
-                                        background: qrData 
-                                            ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
-                                            : 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
-                                        color: 'white',
-                                        boxShadow: qrData 
-                                            ? '0 4px 14px rgba(16, 185, 129, 0.3)'
-                                            : '0 6px 20px rgba(139, 92, 246, 0.3)',
-                                        '&:hover': { 
-                                            background: qrData 
-                                                ? 'linear-gradient(135deg, #059669 0%, #047857 100%)'
-                                                : 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)',
-                                            transform: 'translateY(-2px)',
-                                            boxShadow: qrData 
-                                                ? '0 8px 20px rgba(16, 185, 129, 0.4)'
-                                                : '0 10px 25px rgba(139, 92, 246, 0.4)'
-                                        },
-                                        '&:disabled': {
-                                            background: 'linear-gradient(135deg, #94a3b8 0%, #64748b 100%)',
-                                            boxShadow: 'none',
-                                            transform: 'none'
-                                        }
+                                        mt: error ? 2 : 5,
+                                        borderRadius: 2,
+                                        py: 1.5,
+                                        bgcolor: qrData ? 'success.main' : 'primary.main',
+                                        boxShadow: qrData ? 'none' : 4,
+                                        '&:hover': { bgcolor: qrData ? 'success.dark' : 'primary.dark' }
                                     }}
                                 >
                                     {qrData ? 'Token Active' : 'Generate Token'}
@@ -518,50 +375,16 @@ const StudentDashboard = () => {
 
                 {/* History Section */}
                 <Grid size={{ xs: 12, md: 8 }}>
-                    <Paper sx={{ 
-                        width: '100%', 
-                        overflowX: 'auto', 
-                        borderRadius: { xs: 2, md: 3 }, 
-                        border: 1, 
-                        borderColor: 'divider', 
-                        boxShadow: { 
-                            xs: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                            md: 'none'
-                        }
-                    }}>
-                        <Box sx={{ 
-                            p: { xs: 2, sm: 3 }, 
-                            borderBottom: 1, 
-                            borderColor: 'divider', 
-                            display: 'flex', 
-                            justifyContent: 'space-between', 
-                            alignItems: 'center', 
-                            bgcolor: 'grey.50', 
-                            flexWrap: 'wrap', 
-                            gap: 1 
-                        }}>
+                    <Paper sx={{ width: '100%', overflowX: 'auto', borderRadius: 2, border: 1, borderColor: 'divider', boxShadow: 'none' }}>
+                        <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'space-between', alignItems: 'center', bgcolor: 'grey.50', flexWrap: 'wrap', gap: 1 }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                 <HistoryIcon color="action" />
-                                <Typography 
-                                    variant="subtitle1" 
-                                    fontWeight={700} 
-                                    color="text.primary"
-                                    sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }}
-                                >
+                                <Typography variant="subtitle1" fontWeight={700} color="text.primary">
                                     Recent Activity
                                 </Typography>
                             </Box>
                             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                                <Chip 
-                                    label={`${history.length} Records`} 
-                                    size="small" 
-                                    sx={{ 
-                                        fontWeight: 600,
-                                        background: 'linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)',
-                                        color: '#4338ca',
-                                        border: '1px solid #a5b4fc'
-                                    }} 
-                                />
+                                <Chip label={`${history.length} Records`} size="small" sx={{ fontWeight: 600 }} />
                                 {history.length > 0 && (
                                     <Button
                                         variant="outlined"
@@ -570,12 +393,8 @@ const StudentDashboard = () => {
                                             setCurrentHistoryIndex(0);
                                             setShowHistoryDialog(true);
                                         }}
-                                        data-testid="history-button"
                                         startIcon={<HistoryIcon />}
-                                        sx={{ 
-                                            minWidth: 'auto',
-                                            display: { xs: 'none', sm: 'flex' } // Hide on mobile since it's accessible via bottom nav
-                                        }}
+                                        sx={{ minWidth: 'auto' }}
                                     >
                                         Browse
                                     </Button>
@@ -604,7 +423,7 @@ const StudentDashboard = () => {
                                             </TableCell>
                                         </TableRow>
                                     ) : (
-                                        history.map((log, index) => (
+                                        history.map((log) => (
                                             <TableRow key={log._id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                 <TableCell sx={{ fontWeight: 500 }}>{log.date}</TableCell>
                                                 <TableCell>
@@ -643,7 +462,6 @@ const StudentDashboard = () => {
                                                             variant="outlined"
                                                             size="small"
                                                             onClick={() => setSelectedTicket(log)}
-                                                            data-testid={`ticket-button-${index}`}
                                                             sx={{
                                                                 minWidth: 80,
                                                                 borderColor: 'divider',
@@ -664,7 +482,6 @@ const StudentDashboard = () => {
                     </Paper>
                 </Grid>
             </Grid>
-            </Container>
 
             {/* Ticket Dialog */}
             <Dialog
@@ -681,20 +498,15 @@ const StudentDashboard = () => {
                 {selectedTicket && (
                     <Box sx={{
                         width: '100%',
-                        maxWidth: 420,
-                        minHeight: 240,
-                        bgcolor: '#f8f4e6',
-                        borderRadius: 2,
+                        maxWidth: 400,
+                        bgcolor: '#fff',
+                        borderRadius: 3,
                         position: 'relative',
-                        overflow: 'hidden',
-                        // Transportation ticket style with tear effect
-                        backgroundImage: `
-                            linear-gradient(to right, transparent 0%, transparent 45px, #fff 45px, #fff 55%, transparent 55%, transparent 100%),
-                            repeating-linear-gradient(to bottom, #ddd 0px, #ddd 1px, transparent 1px, transparent 20px)
-                        `,
-                        backgroundSize: '100% 100%, 100% 20px',
-                        fontFamily: "'Courier New', monospace",
-                        boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                        // Ticket Shape with Side Notches
+                        background: 'radial-gradient(circle at 0 130px, transparent 12px, #fff 13px), radial-gradient(circle at 100% 130px, transparent 12px, #fff 13px)',
+                        // Shadow follows the shape
+                        filter: 'drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2))',
+                        fontFamily: "'Courier Prime', monospace"
                     }}>
                         {/* Expiration Overlay */}
                         {isExpired && (
@@ -702,7 +514,7 @@ const StudentDashboard = () => {
                                 position: 'absolute',
                                 inset: 0,
                                 zIndex: 10,
-                                bgcolor: 'rgba(255,255,255,0.8)',
+                                bgcolor: 'rgba(255,255,255,0.6)',
                                 backdropFilter: 'grayscale(100%) blur(1px)',
                                 display: 'flex',
                                 alignItems: 'center',
@@ -710,148 +522,129 @@ const StudentDashboard = () => {
                                 pointerEvents: 'none'
                             }}>
                                 <Box sx={{
-                                    border: '3px dashed #dc2626',
-                                    color: '#dc2626',
+                                    border: '4px solid #ef4444',
+                                    color: '#ef4444',
                                     p: 2,
                                     transform: 'rotate(-15deg)',
-                                    borderRadius: 1,
-                                    bgcolor: 'rgba(255, 255, 255, 0.95)'
+                                    borderRadius: 2,
+                                    bgcolor: 'rgba(255, 255, 255, 0.9)'
                                 }}>
-                                    <Typography variant="h4" fontWeight={900} sx={{ letterSpacing: 1 }}>EXPIRED</Typography>
+                                    <Typography variant="h3" fontWeight={900} sx={{ letterSpacing: 2 }}>EXPIRED</Typography>
                                 </Box>
                             </Box>
                         )}
 
-                        {/* Ticket Header */}
+                        {/* Colored Header */}
                         <Box sx={{
-                            p: 2,
-                            pb: 1,
-                            bgcolor: selectedTicket.mealType === 'DINNER'
-                                ? '#1e40af' // Blue for Dinner
+                            p: 3,
+                            pb: 4,
+                            textAlign: 'center',
+                            background: selectedTicket.mealType === 'DINNER'
+                                ? 'linear-gradient(135deg, #1e1b4b 0%, #4338ca 100%)' // Indigo for Dinner
                                 : selectedTicket.mealType === 'LUNCH'
-                                    ? '#059669' // Green for Lunch
-                                    : '#ea580c', // Orange for Breakfast
+                                    ? 'linear-gradient(135deg, #0c4a6e 0%, #0284c7 100%)' // Sky Blue for Lunch
+                                    : 'linear-gradient(135deg, #7c2d12 0%, #ea580c 100%)', // Orange/Brown for Breakfast
                             color: 'white',
-                            borderBottom: '2px dashed rgba(255,255,255,0.3)',
-                            position: 'relative'
+                            position: 'relative',
+                            borderTopLeftRadius: 12,
+                            borderTopRightRadius: 12
                         }}>
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography variant="h6" fontWeight={800} sx={{ letterSpacing: 1 }}>
-                                    T.J.S ENGINEERING COLLEGE
-                                </Typography>
-                                <IconButton
-                                    onClick={() => setSelectedTicket(null)}
-                                    sx={{ color: 'white', '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' } }}
-                                    size="small"
-                                    autoFocus
-                                >
-                                    <CloseIcon fontSize="small" />
-                                </IconButton>
+                            {/* Decorative Circles */}
+                            <Box sx={{ position: 'absolute', top: -20, left: -20, width: 80, height: 80, borderRadius: '50%', bgcolor: 'rgba(255,255,255,0.1)' }} />
+                            <Box sx={{ position: 'absolute', bottom: -10, right: -10, width: 60, height: 60, borderRadius: '50%', bgcolor: 'rgba(255,255,255,0.1)' }} />
+
+                            <IconButton
+                                onClick={() => setSelectedTicket(null)}
+                                sx={{ position: 'absolute', top: 8, right: 8, color: 'white', bgcolor: 'rgba(0,0,0,0.1)', '&:hover': { bgcolor: 'rgba(0,0,0,0.2)' } }}
+                                size="small"
+                                autoFocus
+                            >
+                                <CloseIcon fontSize="small" />
+                            </IconButton>
+
+                            <Typography variant="overline" sx={{ letterSpacing: 3, opacity: 0.9, fontWeight: 700 }}>T.J.S.E.C MESS</Typography>
+                            <Box sx={{ mt: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1 }}>
+                                <CheckCircleIcon sx={{ fontSize: 28, color: '#4ade80', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }} />
+                                <Typography variant="h5" fontWeight={800} sx={{ letterSpacing: 0.5, textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>AUTHORIZED</Typography>
                             </Box>
-                            <Typography variant="caption" sx={{ opacity: 0.9, letterSpacing: 2, fontWeight: 600 }}>
-                                SMART MESS SYSTEM • MEAL PASS
-                            </Typography>
                         </Box>
 
-                        {/* Ticket Body */}
-                        <Box sx={{ p: 3, pb: 2 }}>
-                            {/* Meal Type Badge */}
+                        {/* Dashed Tear Line */}
+                        <Box sx={{
+                            position: 'absolute',
+                            top: 130,
+                            left: 12,
+                            right: 12,
+                            zIndex: 5,
+                            borderTop: '2px dashed #e2e8f0'
+                        }} />
+
+                        {/* Receipt Body */}
+                        <Box sx={{ p: 4, pt: 3 }}>
+                            {/* Meal Type - Center Focus (Colored) */}
                             <Box sx={{ textAlign: 'center', mb: 3 }}>
-                                <Box sx={{
-                                    display: 'inline-block',
-                                    px: 3,
-                                    py: 1,
-                                    bgcolor: selectedTicket.mealType === 'DINNER'
-                                        ? '#dbeafe'
+                                <Typography variant="caption" color="text.secondary" sx={{ letterSpacing: 2, fontWeight: 600 }}>MEAL SERVICE</Typography>
+                                <Typography variant="h3" fontWeight={900} sx={{
+                                    textTransform: 'uppercase',
+                                    mt: 0.5,
+                                    background: selectedTicket.mealType === 'DINNER'
+                                        ? 'linear-gradient(45deg, #1e1b4b, #4338ca)'
                                         : selectedTicket.mealType === 'LUNCH'
-                                            ? '#d1fae5'
-                                            : '#fed7aa',
-                                    color: selectedTicket.mealType === 'DINNER'
-                                        ? '#1e40af'
-                                        : selectedTicket.mealType === 'LUNCH'
-                                            ? '#059669'
-                                            : '#ea580c',
-                                    borderRadius: 1,
-                                    fontWeight: 800,
-                                    fontSize: '0.875rem',
-                                    letterSpacing: 1,
-                                    border: '2px solid',
-                                    borderColor: selectedTicket.mealType === 'DINNER'
-                                        ? '#1e40af'
-                                        : selectedTicket.mealType === 'LUNCH'
-                                            ? '#059669'
-                                            : '#ea580c'
+                                            ? 'linear-gradient(45deg, #0c4a6e, #0284c7)'
+                                            : 'linear-gradient(45deg, #7c2d12, #ea580c)',
+                                    WebkitBackgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent'
                                 }}>
                                     {selectedTicket.mealType}
-                                </Box>
+                                </Typography>
                             </Box>
 
-                            <Divider sx={{ mb: 3, borderColor: '#ccc' }} />
+                            <Divider sx={{ mb: 3, borderStyle: 'dashed', borderColor: 'grey.300' }} />
 
-                            {/* Date & Time */}
+                            {/* Date & Time Block */}
                             <Grid container spacing={2} sx={{ mb: 3 }}>
                                 <Grid size={{ xs: 6 }}>
-                                    <Box>
-                                        <Typography variant="caption" color="text.secondary" fontWeight={700}>DATE</Typography>
+                                    <Box sx={{ pl: 1, borderLeft: '3px solid', borderColor: 'primary.light' }}>
+                                        <Typography variant="caption" color="text.secondary" fontWeight={600}>DATE</Typography>
                                         <Typography variant="body2" fontWeight={700}>
                                             {new Date(selectedTicket.timestamp).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}
                                         </Typography>
-                                        <Typography variant="caption" fontWeight={600} color="text.secondary">
-                                            {new Date(selectedTicket.timestamp).toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()}
+                                        <Typography variant="caption" fontWeight={600} color="primary.main">
+                                            {new Date(selectedTicket.timestamp).toLocaleDateString('en-US', { weekday: 'long' })}
                                         </Typography>
                                     </Box>
                                 </Grid>
                                 <Grid size={{ xs: 6 }} sx={{ textAlign: 'right' }}>
-                                    <Box>
-                                        <Typography variant="caption" color="text.secondary" fontWeight={700}>TIME</Typography>
+                                    <Box sx={{ pr: 1, borderRight: '3px solid', borderColor: 'secondary.light' }}>
+                                        <Typography variant="caption" color="text.secondary" fontWeight={600}>TIME</Typography>
                                         <Typography variant="body2" fontWeight={700}>
                                             {new Date(selectedTicket.timestamp).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
                                         </Typography>
-                                        <Typography variant="caption" fontWeight={600} color="text.secondary">VALIDATED</Typography>
+                                        <Typography variant="caption" fontWeight={600} color="secondary.main">checked-in</Typography>
                                     </Box>
                                 </Grid>
                             </Grid>
 
-                            {/* Student & Supervisor Info */}
+                            {/* Info Grid */}
                             <Grid container spacing={2}>
+                                {/* Student Details */}
                                 <Grid size={{ xs: 12 }}>
-                                    <Box sx={{ 
-                                        p: 2, 
-                                        bgcolor: '#f9fafb', 
-                                        borderRadius: 1, 
-                                        border: '1px solid #e5e7eb',
-                                        display: 'flex',
-                                        justifyContent: 'space-between',
-                                        alignItems: 'center'
-                                    }}>
-                                        <Box>
-                                            <Typography variant="caption" color="text.secondary" fontWeight={700} sx={{ letterSpacing: 0.5 }}>STUDENT</Typography>
-                                            <Typography variant="body1" fontWeight={800} color="text.primary">{user?.name}</Typography>
-                                            <Typography variant="caption" fontWeight={600} color="text.secondary">{user?.userId}</Typography>
+                                    <Box sx={{ p: 2, bgcolor: '#f1f5f9', borderRadius: 2, border: '1px solid #e2e8f0' }}>
+                                        <Typography variant="caption" color="text.secondary" fontWeight={700} sx={{ letterSpacing: 0.5 }}>STUDENT</Typography>
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 0.5 }}>
+                                            <Box>
+                                                <Typography variant="subtitle2" fontWeight={800} color="text.primary">{user?.name}</Typography>
+                                                <Typography variant="caption" fontWeight={600} color="text.secondary">{user?.userId}</Typography>
+                                            </Box>
+                                            <Chip label={`Year ${user?.year}`} size="small" sx={{ bgcolor: 'white', fontWeight: 700, border: '1px solid #e2e8f0' }} />
                                         </Box>
-                                        <Chip 
-                                            label={`YEAR ${user?.year}`} 
-                                            size="small" 
-                                            sx={{ 
-                                                bgcolor: 'white', 
-                                                fontWeight: 700, 
-                                                border: '1px solid #d1d5db',
-                                                color: '#1f2937'
-                                            }} 
-                                        />
                                     </Box>
                                 </Grid>
-                                <Grid size={{ xs: 12 }}>
-                                    <Box sx={{ 
-                                        p: 2, 
-                                        bgcolor: '#f0f9ff', 
-                                        borderRadius: 1, 
-                                        border: '1px dashed #0ea5e9',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 2
-                                    }}>
-                                        <Box sx={{ p: 1, bgcolor: '#3b82f6', borderRadius: '50%', color: 'white' }}>
+
+                                {/* Supervisor Details */}
+                                <Grid size={{ xs: 12 }} sx={{ mt: 1 }}>
+                                    <Box sx={{ p: 1.5, border: '1px dashed #cbd5e1', borderRadius: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+                                        <Box sx={{ p: 1, bgcolor: 'primary.50', borderRadius: '50%', color: 'primary.main' }}>
                                             <QrCodeScannerIcon fontSize="small" />
                                         </Box>
                                         <Box>
@@ -865,19 +658,10 @@ const StudentDashboard = () => {
                             </Grid>
                         </Box>
 
-                        {/* Ticket Footer */}
-                        <Box sx={{ 
-                            p: 2, 
-                            bgcolor: '#1f2937', 
-                            color: 'white', 
-                            textAlign: 'center',
-                            borderTop: '2px dashed rgba(255,255,255,0.2)'
-                        }}>
-                            <Typography variant="caption" sx={{ fontFamily: 'monospace', opacity: 0.8, letterSpacing: 1 }}>
-                                TICKET ID: {selectedTicket._id?.slice(-8).toUpperCase()}
-                            </Typography>
-                            <Typography variant="caption" sx={{ fontSize: '0.7rem', opacity: 0.6, mt: 0.5 }}>
-                                • AUTHORIZED MEAL ACCESS • NOT TRANSFERABLE • VOID IF DETACHED •
+                        {/* Receipt Footer */}
+                        <Box sx={{ p: 2, bgcolor: '#0f172a', color: 'white', textAlign: 'center' }}>
+                            <Typography variant="caption" sx={{ fontFamily: 'monospace', opacity: 0.7, letterSpacing: 2 }}>
+                                #{selectedTicket._id?.slice(-8).toUpperCase()}
                             </Typography>
                         </Box>
                     </Box>
