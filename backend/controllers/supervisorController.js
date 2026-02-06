@@ -1,18 +1,55 @@
 const User = require('../models/User');
 const Token = require('../models/Token');
 const MealLog = require('../models/MealLog');
+const MealSession = require('../models/MealSession');
 
-// Helper to determine current meal type based on time
-const getCurrentMealType = () => {
+// Helper to determine current active session
+const getActiveSession = async () => {
     const now = new Date();
-    const hour = now.getHours();
-    const minutes = now.getMinutes();
-    const time = hour + minutes / 60;
+    // Find the most recent active session that covers the current time
+    return await MealSession.findOne({
+        isActive: true,
+        startTime: { $lte: now },
+        endTime: { $gte: now }
+    }).sort({ createdAt: -1 });
+};
 
-    if (time >= 6 && time < 10.5) return 'BREAKFAST';
-    if (time >= 12 && time < 15.5) return 'LUNCH';
-    if (time >= 19 && time < 22.5) return 'DINNER';
-    return null;
+// @desc    Set/Update active meal session
+// @route   POST /api/supervisor/session
+// @access  Private/Supervisor
+const setMealSession = async (req, res) => {
+    const { mealType, startTime, endTime } = req.body;
+    const supervisorId = req.user._id;
+
+    try {
+        // Deactivate any previous active sessions
+        await MealSession.updateMany({ isActive: true }, { isActive: false });
+
+        const session = await MealSession.create({
+            mealType,
+            startTime: new Date(startTime),
+            endTime: new Date(endTime),
+            supervisorId,
+            isActive: true
+        });
+
+        res.status(201).json(session);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error setting meal session' });
+    }
+};
+
+// @desc    Get active meal session
+// @route   GET /api/supervisor/session
+// @access  Private/Supervisor
+const getMealSession = async (req, res) => {
+    try {
+        const session = await getActiveSession();
+        res.json(session);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching session' });
+    }
 };
 
 // @desc    Scan and validate QR
@@ -23,11 +60,16 @@ const validateMeal = async (req, res) => {
     const supervisorId = req.user._id;
     const io = req.app.get('io');
 
-    const currentMeal = getCurrentMealType();
+    const activeSession = await getActiveSession();
 
-    // If testing outside hours, you might want to force a type or remove this check
-    // For now, strict check, but fallback for demo:
-    const mealType = currentMeal || 'DINNER'; // Defaulting for demo purposes if outside hours
+    if (!activeSession) {
+        return res.status(400).json({
+            status: 'DENIED',
+            reason: 'No active meal session. Supervisor must set timings first.'
+        });
+    }
+
+    const mealType = activeSession.mealType;
 
     try {
         // 1. Find Token
@@ -137,4 +179,4 @@ async function logMeal(userId, mealType, supervisorId, status, reason) {
     return mealLog;
 }
 
-module.exports = { validateMeal };
+module.exports = { validateMeal, setMealSession, getMealSession };
