@@ -26,20 +26,39 @@ const StudentDashboard = () => {
     const [showHistoryDialog, setShowHistoryDialog] = useState(false);
     const [currentHistoryIndex, setCurrentHistoryIndex] = useState(0);
     const [windowSize, setWindowSize] = useState(window.innerWidth);
+    const [error, setError] = useState('');
+
+    const getCurrentMealType = () => {
+        const now = new Date();
+        const hour = now.getHours();
+        const minutes = now.getMinutes();
+        const time = hour + minutes / 60;
+
+        if (time >= 5.0 && time < 10.0) return 'BREAKFAST';
+        if (time >= 10.0 && time < 14.0) return 'LUNCH';
+        if (time >= 14.0 && time < 22.0) return 'DINNER';
+        return null; // Outside meal hours
+    };
+
+    const isMealTimeExpired = (mealType) => {
+        const now = new Date();
+        const hour = now.getHours();
+        const minutes = now.getMinutes();
+        const time = hour + minutes / 60;
+
+        if (mealType === 'BREAKFAST' && time >= 10.0) return true;
+        if (mealType === 'LUNCH' && time >= 14.0) return true;
+        if (mealType === 'DINNER' && time >= 22.0) return true;
+        return false;
+    };
 
     const isTicketExpired = (ticket) => {
         if (!ticket) return false;
         const ticketDate = new Date(ticket.timestamp);
         const now = new Date();
         if (ticketDate.toDateString() !== now.toDateString()) return true;
-        const hour = now.getHours();
-        const minutes = now.getMinutes();
-        const time = hour + minutes / 60;
-
-        if (ticket.mealType === 'BREAKFAST' && time >= 10.0) return true;
-        if (ticket.mealType === 'LUNCH' && time >= 14.0) return true;
-        if (ticket.mealType === 'DINNER' && time >= 22.0) return true;
-        return false;
+        
+        return isMealTimeExpired(ticket.mealType);
     };
 
     const isExpired = isTicketExpired(selectedTicket);
@@ -113,13 +132,32 @@ const StudentDashboard = () => {
 
     const generateQr = async () => {
         try {
-            const { data } = await api.get('/student/generate-qr');
+            setError('');
+            const currentMealType = getCurrentMealType();
+            
+            if (!currentMealType) {
+                setError('No meal service available at this time. Meal timings: Breakfast (5AM-10AM), Lunch (10AM-2PM), Dinner (2PM-10PM)');
+                return;
+            }
+
+            const { data } = await api.get('/student/generate-qr', { 
+                params: { mealType: currentMealType } 
+            });
+            
+            // Check if the returned ticket is already expired
+            if (isMealTimeExpired(data.mealType)) {
+                setError(`${data.mealType} service has ended. Please try again during the next meal time.`);
+                return;
+            }
+
             setQrData(data.payload);
             const expires = new Date(data.expiresAt).getTime();
             const now = new Date().getTime();
             setTimeLeft(Math.floor((expires - now) / 1000));
+            setError(''); // Clear any existing errors on success
         } catch (error) {
             console.error('Failed to generate QR');
+            setError(error.response?.data?.message || 'Failed to generate QR code. Please try again.');
         }
     };
 
@@ -205,6 +243,46 @@ const StudentDashboard = () => {
                                         <Chip label={user?.residentType} size="small" sx={{ height: 20, fontSize: '0.65rem', fontWeight: 700, bgcolor: 'primary.50', color: 'primary.700' }} />
                                         <Chip label={user?.mealType} size="small" sx={{ height: 20, fontSize: '0.65rem', fontWeight: 700, bgcolor: 'orange.50', color: 'orange.800' }} />
                                     </Box>
+                                    
+                                    {/* Current Meal Service Indicator */}
+                                    {(() => {
+                                        const currentMeal = getCurrentMealType();
+                                        if (currentMeal) {
+                                            return (
+                                                <Box sx={{ mt: 2 }}>
+                                                    <Chip 
+                                                        label={`${currentMeal} Service Active`}
+                                                        size="small"
+                                                        sx={{ 
+                                                            height: 24, 
+                                                            fontSize: '0.7rem', 
+                                                            fontWeight: 700,
+                                                            bgcolor: currentMeal === 'BREAKFAST' ? 'orange.100' : 
+                                                                      currentMeal === 'LUNCH' ? 'blue.100' : 'indigo.100',
+                                                            color: currentMeal === 'BREAKFAST' ? 'orange.800' : 
+                                                                   currentMeal === 'LUNCH' ? 'blue.800' : 'indigo.800'
+                                                        }} 
+                                                    />
+                                                </Box>
+                                            );
+                                        } else {
+                                            return (
+                                                <Box sx={{ mt: 2 }}>
+                                                    <Chip 
+                                                        label="No Meal Service"
+                                                        size="small"
+                                                        sx={{ 
+                                                            height: 24, 
+                                                            fontSize: '0.7rem', 
+                                                            fontWeight: 700,
+                                                            bgcolor: 'grey.100',
+                                                            color: 'grey.600'
+                                                        }} 
+                                                    />
+                                                </Box>
+                                            );
+                                        }
+                                    })()}
                                 </Box>
 
                                 {/* QR Code Area */}
@@ -256,6 +334,22 @@ const StudentDashboard = () => {
 
                                 <Box sx={{ flexGrow: 1 }} />
 
+                                {/* Error Display */}
+                                {error && (
+                                    <Box sx={{ 
+                                        mt: 2, 
+                                        p: 2, 
+                                        bgcolor: 'error.light', 
+                                        color: 'error.dark',
+                                        borderRadius: 2,
+                                        fontSize: '0.875rem',
+                                        fontWeight: 500,
+                                        textAlign: 'center'
+                                    }}>
+                                        {error}
+                                    </Box>
+                                )}
+
                                 <Button
                                     variant="contained"
                                     fullWidth
@@ -264,7 +358,7 @@ const StudentDashboard = () => {
                                     disabled={!!qrData}
                                     startIcon={!qrData ? <QrCodeScannerIcon /> : <CheckCircleIcon />}
                                     sx={{
-                                        mt: 5,
+                                        mt: error ? 2 : 5,
                                         borderRadius: 2,
                                         py: 1.5,
                                         bgcolor: qrData ? 'success.main' : 'primary.main',
