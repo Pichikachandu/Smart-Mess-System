@@ -11,6 +11,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import TimerIcon from '@mui/icons-material/Timer';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
 import { useNavigate } from 'react-router-dom';
 
 const SupervisorDashboard = () => {
