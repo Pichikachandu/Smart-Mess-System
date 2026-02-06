@@ -141,7 +141,7 @@ const StudentDashboard = () => {
                     <Box sx={{ position: 'relative', height: { xs: 'auto', md: '100%' } }}>
                         {/* Premium Access Pass Card */}
                         <Card sx={{
-                            height: { xs: 'auto', md: '100%' },
+                            height: 'auto',
                             display: 'flex',
                             flexDirection: 'column',
                             overflow: 'visible',
@@ -229,8 +229,6 @@ const StudentDashboard = () => {
                                         </Box>
                                     )}
                                 </Box>
-
-                                <Box sx={{ flexGrow: 1 }} />
 
                                 <Button
                                     variant="contained"
