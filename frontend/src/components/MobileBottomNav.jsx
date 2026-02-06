@@ -41,9 +41,29 @@ const MobileBottomNav = () => {
   };
 
   const handleMyTicketClick = () => {
+    // Check if there's an active QR token first
     const qrCodeArea = document.querySelector('[data-testid="qr-code-area"]');
     if (qrCodeArea) {
-      qrCodeArea.click();
+      const qrData = qrCodeArea.getAttribute('data-qr-active');
+      if (qrData === 'true' || qrCodeArea.querySelector('canvas')) {
+        // If active QR exists, open the active token dialog
+        qrCodeArea.click();
+        return;
+      }
+    }
+    
+    // If no active QR, open the most recent ticket from history
+    const historyButton = document.querySelector('[data-testid="history-button"]');
+    if (historyButton) {
+      historyButton.click();
+      
+      // Wait a moment for history dialog to open, then click the first ticket
+      setTimeout(() => {
+        const firstTicketButton = document.querySelector('[data-testid="ticket-button-0"]');
+        if (firstTicketButton) {
+          firstTicketButton.click();
+        }
+      }, 500);
     }
   };
 

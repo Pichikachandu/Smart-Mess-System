@@ -367,6 +367,7 @@ const StudentDashboard = () => {
                                 {/* QR Code Area */}
                                 <Box
                                     data-testid="qr-code-area"
+                                    data-qr-active={qrData ? 'true' : 'false'}
                                     onClick={() => qrData && setShowActiveTokenDialog(true)}
                                     sx={{
                                         p: 3,
@@ -603,7 +604,7 @@ const StudentDashboard = () => {
                                             </TableCell>
                                         </TableRow>
                                     ) : (
-                                        history.map((log) => (
+                                        history.map((log, index) => (
                                             <TableRow key={log._id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                 <TableCell sx={{ fontWeight: 500 }}>{log.date}</TableCell>
                                                 <TableCell>
@@ -642,6 +643,7 @@ const StudentDashboard = () => {
                                                             variant="outlined"
                                                             size="small"
                                                             onClick={() => setSelectedTicket(log)}
+                                                            data-testid={`ticket-button-${index}`}
                                                             sx={{
                                                                 minWidth: 80,
                                                                 borderColor: 'divider',
