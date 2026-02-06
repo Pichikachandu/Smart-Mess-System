@@ -35,8 +35,8 @@ const StudentDashboard = () => {
         const time = hour + minutes / 60;
 
         if (time >= 5.0 && time < 10.0) return 'BREAKFAST';
-        if (time >= 10.0 && time < 14.0) return 'LUNCH';
-        if (time >= 14.0 && time < 22.0) return 'DINNER';
+        if (time >= 10.0 && time < 16.0) return 'LUNCH'; // Extended to 4PM
+        if (time >= 16.0 && time < 22.0) return 'DINNER'; // Starts at 4PM
         return null; // Outside meal hours
     };
 
@@ -47,7 +47,7 @@ const StudentDashboard = () => {
         const time = hour + minutes / 60;
 
         if (mealType === 'BREAKFAST' && time >= 10.0) return true;
-        if (mealType === 'LUNCH' && time >= 14.0) return true;
+        if (mealType === 'LUNCH' && time >= 16.0) return true; // Updated to 4PM
         if (mealType === 'DINNER' && time >= 22.0) return true;
         return false;
     };
@@ -136,7 +136,7 @@ const StudentDashboard = () => {
             const currentMealType = getCurrentMealType();
             
             if (!currentMealType) {
-                setError('No meal service available at this time. Meal timings: Breakfast (5AM-10AM), Lunch (10AM-2PM), Dinner (2PM-10PM)');
+                setError('No meal service available at this time. Meal timings: Breakfast (5AM-10AM), Lunch (10AM-4PM), Dinner (4PM-10PM)');
                 return;
             }
 
