@@ -8,17 +8,21 @@ export const initializeSocket = (token) => {
     }
 
     const BACKEND_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-    // Ensure no trailing slash in BACKEND_URL for socket.io-client
-    const cleanUrl = BACKEND_URL.replace(/\/$/, "");
-    console.log('Connecting to socket at:', cleanUrl);
+    // Extract the base domain from the URL (removes /api or any trailing slashes)
+    const socketUrl = BACKEND_URL.includes('/api')
+        ? BACKEND_URL.split('/api')[0]
+        : BACKEND_URL.replace(/\/$/, "");
 
-    socket = io(cleanUrl, {
+    console.log('🔌 Attempting Socket connection to:', socketUrl);
+    console.log('📍 With path:', '/socket.io');
+
+    socket = io(socketUrl, {
         auth: {
             token
         },
         path: '/socket.io',
         transports: ['polling', 'websocket'],
-        secure: cleanUrl.startsWith('https'),
+        secure: socketUrl.startsWith('https'),
         addTrailingSlash: false,
         reconnection: true,
         reconnectionAttempts: 10,

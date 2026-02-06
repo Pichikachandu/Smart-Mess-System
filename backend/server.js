@@ -13,12 +13,9 @@ connectDB();
 const app = express();
 const server = http.createServer(app);
 
-// CORS configuration
-const allowedOrigins = [
-    'http://localhost:5173',
-    'https://smart-mess-sys.vercel.app',
-    process.env.FRONTEND_URL
 ].filter(Boolean); // Remove undefined values
+
+console.log('🌐 Allowed Origins for CORS:', allowedOrigins);
 
 const corsOptions = {
     origin: (origin, callback) => {
@@ -43,16 +40,22 @@ app.use(express.json());
 // Socket.IO configuration
 const io = new Server(server, {
     cors: {
-        origin: allowedOrigins,
+        origin: (origin, callback) => {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                console.log('❌ Socket CORS blocked origin:', origin);
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
         methods: ["GET", "POST"],
         credentials: true
     },
-    path: '/socket.io',
+    path: '/socket.io', // Default path, explicitly set for clarity
     transports: ['polling', 'websocket'],
     pingTimeout: 60000,
     pingInterval: 25000,
-    connectTimeout: 45000,
-    allowEIO3: false // Keep it modern
+    connectTimeout: 45000
 });
 
 // Log server-side events for debugging
