@@ -13,6 +13,10 @@ export const initializeSocket = (token) => {
         auth: {
             token
         },
+        transports: ['polling', 'websocket'],
+        reconnection: true,
+        reconnectionAttempts: 5,
+        reconnectionDelay: 1000,
         autoConnect: true
     });
 

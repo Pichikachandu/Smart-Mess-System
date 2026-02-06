@@ -40,7 +40,12 @@ app.use(express.json());
 
 // Socket.IO configuration
 const io = new Server(server, {
-    cors: corsOptions
+    cors: corsOptions,
+    transports: ['polling', 'websocket'],
+    pingTimeout: 60000,
+    pingInterval: 25000,
+    connectTimeout: 45000,
+    allowEIO3: true // Support older clients if any
 });
 
 // Socket.IO authentication middleware
@@ -48,6 +53,7 @@ io.use((socket, next) => {
     const token = socket.handshake.auth.token;
 
     if (!token) {
+        console.log('Socket Auth Error: No token provided');
         return next(new Error('Authentication error'));
     }
 
@@ -57,6 +63,7 @@ io.use((socket, next) => {
         socket.join(`user-${decoded.id}`);
         next();
     } catch (error) {
+        console.log('Socket Auth Error:', error.message);
         next(new Error('Authentication error'));
     }
 });
