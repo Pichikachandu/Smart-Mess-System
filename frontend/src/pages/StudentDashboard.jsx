@@ -138,7 +138,12 @@ const StudentDashboard = () => {
             <Grid container spacing={{ xs: 2, md: 4 }}>
                 {/* Access Pass Section */}
                 <Grid size={{ xs: 12, md: 4 }}>
-                    <Box sx={{ position: 'relative', height: { xs: 'auto', md: '100%' } }}>
+                    <Box sx={{
+                        position: { xs: 'relative', md: 'sticky' },
+                        top: { md: 24 },
+                        height: 'fit-content',
+                        zIndex: 10
+                    }}>
                         {/* Premium Access Pass Card */}
                         <Card sx={{
                             height: 'auto',
@@ -229,6 +234,8 @@ const StudentDashboard = () => {
                                         </Box>
                                     )}
                                 </Box>
+
+                                <Box sx={{ flexGrow: 1 }} />
 
                                 <Button
                                     variant="contained"
