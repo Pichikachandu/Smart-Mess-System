@@ -8,23 +8,18 @@ export const initializeSocket = (token) => {
     }
 
     const BACKEND_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-    // Extract the base domain from the URL (removes /api or any trailing slashes)
-    const socketUrl = BACKEND_URL.includes('/api')
-        ? BACKEND_URL.split('/api')[0]
-        : BACKEND_URL.replace(/\/$/, "");
+    // Cleaner extraction of root domain
+    const socketUrl = BACKEND_URL.replace(/\/api\/?$/, "").replace(/\/$/, "");
 
-    console.log('🔌 Attempting Socket connection to:', socketUrl);
-    console.log('📍 With path:', '/socket.io');
+    console.log('🔌 Connecting to Socket.IO at:', socketUrl);
 
     socket = io(socketUrl, {
         auth: {
             token
         },
         path: '/socket.io',
-        transports: ['polling', 'websocket'],
-        secure: socketUrl.startsWith('https'),
-        addTrailingSlash: false,
-        reconnection: true,
+        transports: ['websocket', 'polling'], // Prefer websocket
+        forceNew: true,
         reconnectionAttempts: 10,
         reconnectionDelay: 1000,
         autoConnect: true

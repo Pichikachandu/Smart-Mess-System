@@ -137,12 +137,12 @@ const StudentDashboard = () => {
         <DashboardLayout title="Student Portal">
             <Grid container spacing={{ xs: 2, md: 4 }}>
                 {/* Access Pass Section */}
-                <Grid size={{ xs: 12, md: 4 }}>
+                <Grid size={{ xs: 12, md: 4 }} sx={{ overflow: 'visible' }}>
                     <Box sx={{
                         position: { xs: 'relative', md: 'sticky' },
                         top: { md: 24 },
-                        height: 'fit-content',
-                        zIndex: 10
+                        zIndex: 10,
+                        height: 'fit-content'
                     }}>
                         {/* Premium Access Pass Card */}
                         <Card sx={{

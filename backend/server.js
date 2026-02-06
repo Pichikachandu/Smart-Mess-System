@@ -45,22 +45,14 @@ app.use(express.json());
 // Socket.IO configuration
 const io = new Server(server, {
     cors: {
-        origin: (origin, callback) => {
-            if (!origin || allowedOrigins.includes(origin)) {
-                callback(null, true);
-            } else {
-                console.log('❌ Socket CORS blocked origin:', origin);
-                callback(new Error('Not allowed by CORS'));
-            }
-        },
+        origin: "*", // Relaxed for debugging 404s
         methods: ["GET", "POST"],
         credentials: true
     },
-    path: '/socket.io', // Default path, explicitly set for clarity
-    transports: ['polling', 'websocket'],
+    path: '/socket.io',
+    transports: ['websocket', 'polling'], // Prefer websocket
     pingTimeout: 60000,
     pingInterval: 25000,
-    connectTimeout: 45000
 });
 
 // Log server-side events for debugging
@@ -115,6 +107,6 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
 });
