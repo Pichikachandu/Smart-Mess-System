@@ -76,7 +76,7 @@ const SupervisorDashboard = () => {
                                 <Scanner
                                     onError={(error) => console.error(error)}
                                     onScan={handleScan}
-                                    scanDelay={50}
+                                    scanDelay={10}
                                     components={{ audio: false, finder: false, torch: true }}
                                     constraints={{
                                         facingMode: 'environment',

@@ -48,15 +48,26 @@ const StudentDashboard = () => {
         if (token) {
             const socket = initializeSocket(token);
 
+            // Add connection state logging
+            socket.on('connect', () => {
+                console.log('✅ Socket connected successfully, ID:', socket.id);
+            });
+
+            socket.on('connect_error', (error) => {
+                console.error('❌ Socket connection error:', error);
+            });
+
             // Listen for meal log creation events
             socket.on('mealLogCreated', (mealLog) => {
-                console.log('New meal log received:', mealLog);
-                // Refresh history to show the new ticket
-                fetchHistory();
+                console.log('🎫 New meal log received:', mealLog);
+                // Immediately add the new ticket to history
+                setHistory(prevHistory => [mealLog, ...prevHistory]);
             });
 
             // Cleanup on unmount
             return () => {
+                socket.off('connect');
+                socket.off('connect_error');
                 socket.off('mealLogCreated');
                 disconnectSocket();
             };

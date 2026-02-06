@@ -47,6 +47,7 @@ const validateMeal = async (req, res) => {
         if (!user.isActive) {
             const mealLog = await logMeal(user._id, mealType, supervisorId, 'DENIED', 'Account Disabled');
             // Emit real-time update
+            console.log(`🔔 Emitting mealLogCreated to user-${user._id}:`, mealLog._id);
             io.to(`user-${user._id}`).emit('mealLogCreated', mealLog);
             return res.status(400).json({ status: 'DENIED', reason: 'Account Disabled' });
         }
@@ -59,6 +60,7 @@ const validateMeal = async (req, res) => {
         if (!user.validDays.includes(today.toUpperCase())) {
             const mealLog = await logMeal(user._id, mealType, supervisorId, 'DENIED', 'Invalid Day');
             // Emit real-time update
+            console.log(`🔔 Emitting mealLogCreated to user-${user._id}:`, mealLog._id);
             io.to(`user-${user._id}`).emit('mealLogCreated', mealLog);
             return res.status(400).json({ status: 'DENIED', reason: `Not valid for ${today}` });
         }
@@ -77,6 +79,7 @@ const validateMeal = async (req, res) => {
         if (existingLog) {
             const mealLog = await logMeal(user._id, mealType, supervisorId, 'DENIED', 'Already Consumed');
             // Emit real-time update
+            console.log(`🔔 Emitting mealLogCreated to user-${user._id}:`, mealLog._id);
             io.to(`user-${user._id}`).emit('mealLogCreated', mealLog);
             return res.status(400).json({ status: 'DENIED', reason: 'Already Consumed' });
         }
@@ -85,6 +88,7 @@ const validateMeal = async (req, res) => {
         const mealLog = await logMeal(user._id, mealType, supervisorId, 'ALLOWED', 'Access Granted');
 
         // Emit real-time update
+        console.log(`🔔 Emitting mealLogCreated to user-${user._id}:`, mealLog._id);
         io.to(`user-${user._id}`).emit('mealLogCreated', mealLog);
 
         // Optionally invalidate token after use to prevent replay within 5 mins?
