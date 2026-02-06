@@ -8,7 +8,7 @@ import {
   useMediaQuery
 } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
-import QrCodeIcon from '@mui/icons-material/QrCode';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import HistoryIcon from '@mui/icons-material/History';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
@@ -31,6 +31,20 @@ const MobileBottomNav = () => {
   const handleNavigation = (newValue, path) => {
     setValue(newValue);
     navigate(path);
+  };
+
+  const handleHistoryClick = () => {
+    const historyButton = document.querySelector('[data-testid="history-button"]');
+    if (historyButton) {
+      historyButton.click();
+    }
+  };
+
+  const handleMyTicketClick = () => {
+    const qrCodeArea = document.querySelector('[data-testid="qr-code-area"]');
+    if (qrCodeArea) {
+      qrCodeArea.click();
+    }
   };
 
   const handleLogout = () => {
@@ -75,22 +89,17 @@ const MobileBottomNav = () => {
           }}
         />
         <BottomNavigationAction
-          label="Token"
-          icon={<QrCodeIcon />}
-          onClick={() => handleNavigation(1, '/student')}
+          label="My Ticket"
+          icon={<ConfirmationNumberIcon />}
+          onClick={handleMyTicketClick}
           sx={{
-            color: location.pathname === '/student' ? 'primary.main' : 'text.secondary'
+            color: 'text.secondary'
           }}
         />
         <BottomNavigationAction
           label="History"
           icon={<HistoryIcon />}
-          onClick={() => {
-            const historyButton = document.querySelector('[data-testid="history-button"]');
-            if (historyButton) {
-              historyButton.click();
-            }
-          }}
+          onClick={handleHistoryClick}
           sx={{
             color: 'text.secondary'
           }}

@@ -366,6 +366,7 @@ const StudentDashboard = () => {
 
                                 {/* QR Code Area */}
                                 <Box
+                                    data-testid="qr-code-area"
                                     onClick={() => qrData && setShowActiveTokenDialog(true)}
                                     sx={{
                                         p: 3,
@@ -516,16 +517,50 @@ const StudentDashboard = () => {
 
                 {/* History Section */}
                 <Grid size={{ xs: 12, md: 8 }}>
-                    <Paper sx={{ width: '100%', overflowX: 'auto', borderRadius: 2, border: 1, borderColor: 'divider', boxShadow: 'none' }}>
-                        <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'space-between', alignItems: 'center', bgcolor: 'grey.50', flexWrap: 'wrap', gap: 1 }}>
+                    <Paper sx={{ 
+                        width: '100%', 
+                        overflowX: 'auto', 
+                        borderRadius: { xs: 2, md: 3 }, 
+                        border: 1, 
+                        borderColor: 'divider', 
+                        boxShadow: { 
+                            xs: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                            md: 'none'
+                        }
+                    }}>
+                        <Box sx={{ 
+                            p: { xs: 2, sm: 3 }, 
+                            borderBottom: 1, 
+                            borderColor: 'divider', 
+                            display: 'flex', 
+                            justifyContent: 'space-between', 
+                            alignItems: 'center', 
+                            bgcolor: 'grey.50', 
+                            flexWrap: 'wrap', 
+                            gap: 1 
+                        }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                 <HistoryIcon color="action" />
-                                <Typography variant="subtitle1" fontWeight={700} color="text.primary">
+                                <Typography 
+                                    variant="subtitle1" 
+                                    fontWeight={700} 
+                                    color="text.primary"
+                                    sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }}
+                                >
                                     Recent Activity
                                 </Typography>
                             </Box>
                             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                                <Chip label={`${history.length} Records`} size="small" sx={{ fontWeight: 600 }} />
+                                <Chip 
+                                    label={`${history.length} Records`} 
+                                    size="small" 
+                                    sx={{ 
+                                        fontWeight: 600,
+                                        background: 'linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)',
+                                        color: '#4338ca',
+                                        border: '1px solid #a5b4fc'
+                                    }} 
+                                />
                                 {history.length > 0 && (
                                     <Button
                                         variant="outlined"
@@ -536,7 +571,10 @@ const StudentDashboard = () => {
                                         }}
                                         data-testid="history-button"
                                         startIcon={<HistoryIcon />}
-                                        sx={{ minWidth: 'auto' }}
+                                        sx={{ 
+                                            minWidth: 'auto',
+                                            display: { xs: 'none', sm: 'flex' } // Hide on mobile since it's accessible via bottom nav
+                                        }}
                                     >
                                         Browse
                                     </Button>
