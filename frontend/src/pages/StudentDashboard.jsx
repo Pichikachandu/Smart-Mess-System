@@ -209,12 +209,12 @@ const StudentDashboard = () => {
                                 md: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
                             },
                             mb: { xs: 3, md: 0 },
-                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                            background: 'linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #581c87 100%)'
                         }}>
                             {/* Pass Header */}
                             <Box sx={{
-                                background: 'rgba(255, 255, 255, 0.1)',
-                                backdropFilter: 'blur(10px)',
+                                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                                backdropFilter: 'blur(15px)',
                                 p: { xs: 2, sm: 3 },
                                 borderTopLeftRadius: { xs: 2, md: 3 },
                                 borderTopRightRadius: { xs: 2, md: 3 },
@@ -229,27 +229,81 @@ const StudentDashboard = () => {
                                     sx={{ 
                                         fontWeight: 800,
                                         mb: 0.5,
-                                        fontSize: { xs: '1.2rem', sm: '1.5rem' }
+                                        fontSize: { xs: '1.2rem', sm: '1.5rem' },
+                                        textShadow: '0 2px 4px rgba(0,0,0,0.3)'
                                     }}
                                 >
                                     Meal Access Pass
                                 </Typography>
-                                <Typography variant="caption" sx={{ opacity: 0.7, letterSpacing: 2 }}>SMART MESS SYSTEM</Typography>
+                                <Typography variant="caption" sx={{ 
+                                    opacity: 0.9, 
+                                    letterSpacing: 3,
+                                    fontWeight: 600,
+                                    textShadow: '0 1px 2px rgba(0,0,0,0.3)'
+                                }}>
+                                    SMART MESS SYSTEM
+                                </Typography>
                             </Box>
 
                             {/* Pass Body */}
-                            <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', p: 4, pt: 5 }}>
+                            <CardContent sx={{ 
+                                flexGrow: 1, 
+                                display: 'flex', 
+                                flexDirection: 'column', 
+                                alignItems: 'center', 
+                                p: { xs: 3, sm: 4 }, 
+                                pt: { xs: 3, sm: 5 },
+                                background: 'linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.98) 100%)'
+                            }}>
                                 {/* User Info Compact */}
                                 <Box sx={{ textAlign: 'center', mb: 4 }}>
-                                    <Typography variant="h5" fontWeight={800} color="text.primary">
+                                    <Typography 
+                                        variant="h5" 
+                                        fontWeight={800} 
+                                        sx={{
+                                            background: 'linear-gradient(135deg, #1e3a8a 0%, #581c87 100%)',
+                                            WebkitBackgroundClip: 'text',
+                                            WebkitTextFillColor: 'transparent',
+                                            mb: 1
+                                        }}
+                                    >
                                         {user?.name}
                                     </Typography>
-                                    <Typography variant="body2" color="text.secondary" fontWeight={500} sx={{ letterSpacing: '0.05em' }}>
+                                    <Typography 
+                                        variant="body2" 
+                                        fontWeight={600} 
+                                        sx={{ 
+                                            letterSpacing: '0.05em',
+                                            color: '#64748b'
+                                        }}
+                                    >
                                         {user?.userId} • {user?.department}
                                     </Typography>
                                     <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1, mt: 1.5 }}>
-                                        <Chip label={user?.residentType} size="small" sx={{ height: 20, fontSize: '0.65rem', fontWeight: 700, bgcolor: 'primary.50', color: 'primary.700' }} />
-                                        <Chip label={user?.mealType} size="small" sx={{ height: 20, fontSize: '0.65rem', fontWeight: 700, bgcolor: 'orange.50', color: 'orange.800' }} />
+                                        <Chip 
+                                            label={user?.residentType} 
+                                            size="small" 
+                                            sx={{ 
+                                                height: 24, 
+                                                fontSize: '0.7rem', 
+                                                fontWeight: 700,
+                                                background: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)',
+                                                color: '#1e40af',
+                                                border: '1px solid #93c5fd'
+                                            }} 
+                                        />
+                                        <Chip 
+                                            label={user?.mealType} 
+                                            size="small" 
+                                            sx={{ 
+                                                height: 24, 
+                                                fontSize: '0.7rem', 
+                                                fontWeight: 700,
+                                                background: 'linear-gradient(135deg, #fed7aa 0%, #fdba74 100%)',
+                                                color: '#c2410c',
+                                                border: '1px solid #fb923c'
+                                            }} 
+                                        />
                                     </Box>
                                     
                                     {/* Current Meal Service Indicator */}
@@ -262,13 +316,27 @@ const StudentDashboard = () => {
                                                         label={`${currentMeal} Service Active`}
                                                         size="small"
                                                         sx={{ 
-                                                            height: 24, 
-                                                            fontSize: '0.7rem', 
+                                                            height: 28, 
+                                                            fontSize: '0.75rem', 
                                                             fontWeight: 700,
-                                                            bgcolor: currentMeal === 'BREAKFAST' ? 'orange.100' : 
-                                                                      currentMeal === 'LUNCH' ? 'blue.100' : 'indigo.100',
-                                                            color: currentMeal === 'BREAKFAST' ? 'orange.800' : 
-                                                                   currentMeal === 'LUNCH' ? 'blue.800' : 'indigo.800'
+                                                            px: 2,
+                                                            background: currentMeal === 'BREAKFAST' 
+                                                                ? 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)'
+                                                                : currentMeal === 'LUNCH' 
+                                                                    ? 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)'
+                                                                    : 'linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%)',
+                                                            color: currentMeal === 'BREAKFAST' 
+                                                                ? '#b45309'
+                                                                : currentMeal === 'LUNCH' 
+                                                                    ? '#065f46'
+                                                                    : '#5b21b6',
+                                                            border: '1px solid',
+                                                            borderColor: currentMeal === 'BREAKFAST' 
+                                                                ? '#f59e0b'
+                                                                : currentMeal === 'LUNCH' 
+                                                                    ? '#10b981'
+                                                                    : '#8b5cf6',
+                                                            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                                                         }} 
                                                     />
                                                 </Box>
@@ -280,11 +348,14 @@ const StudentDashboard = () => {
                                                         label="No Meal Service"
                                                         size="small"
                                                         sx={{ 
-                                                            height: 24, 
-                                                            fontSize: '0.7rem', 
+                                                            height: 28, 
+                                                            fontSize: '0.75rem', 
                                                             fontWeight: 700,
-                                                            bgcolor: 'grey.100',
-                                                            color: 'grey.600'
+                                                            px: 2,
+                                                            background: 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)',
+                                                            color: '#475569',
+                                                            border: '1px solid #cbd5e1',
+                                                            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                                                         }} 
                                                     />
                                                 </Box>
@@ -297,14 +368,21 @@ const StudentDashboard = () => {
                                 <Box
                                     onClick={() => qrData && setShowActiveTokenDialog(true)}
                                     sx={{
-                                        p: 2,
+                                        p: 3,
                                         border: '2px dashed',
-                                        borderColor: qrData ? 'primary.main' : 'divider',
-                                        borderRadius: 2,
-                                        bgcolor: qrData ? 'white' : 'grey.50',
+                                        borderColor: qrData ? '#8b5cf6' : '#cbd5e1',
+                                        borderRadius: 3,
+                                        bgcolor: qrData 
+                                            ? 'linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%)' 
+                                            : 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
                                         position: 'relative',
                                         cursor: qrData ? 'pointer' : 'default',
-                                        '&:hover': qrData ? { borderColor: 'primary.dark', boxShadow: 2 } : {}
+                                        transition: 'all 0.3s ease',
+                                        '&:hover': qrData ? { 
+                                            borderColor: '#7c3aed',
+                                            boxShadow: '0 8px 25px rgba(139, 92, 246, 0.15)',
+                                            transform: 'translateY(-2px)'
+                                        } : {}
                                     }}
                                 >
                                     {qrData ? (
@@ -317,25 +395,57 @@ const StudentDashboard = () => {
                                             />
                                             <Tooltip title="Click to view full size">
                                                 <IconButton
-                                                    sx={{ position: 'absolute', top: 8, right: 8, bgcolor: 'white', boxShadow: 1, '&:hover': { bgcolor: 'grey.100' } }}
+                                                    sx={{ 
+                                                        position: 'absolute', 
+                                                        top: 12, 
+                                                        right: 12, 
+                                                        bgcolor: 'white', 
+                                                        boxShadow: '0 4px 12px rgba(0,0,0,0.15)', 
+                                                        '&:hover': { 
+                                                            bgcolor: '#f3e8ff',
+                                                            color: '#7c3aed'
+                                                        } 
+                                                    }}
                                                     size="small"
                                                 >
                                                     <FullscreenIcon fontSize="small" />
                                                 </IconButton>
                                             </Tooltip>
                                             <Box sx={{
-                                                position: 'absolute', bottom: -16, left: '50%', transform: 'translateX(-50%)',
-                                                bgcolor: 'error.main', color: 'white', px: 1.5, py: 0.25, borderRadius: 1,
-                                                display: 'flex', alignItems: 'center', gap: 0.5, boxShadow: 2
+                                                position: 'absolute', 
+                                                bottom: -20, 
+                                                left: '50%', 
+                                                transform: 'translateX(-50%)',
+                                                background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                                                color: 'white', 
+                                                px: 2, 
+                                                py: 1, 
+                                                borderRadius: 2,
+                                                display: 'flex', 
+                                                alignItems: 'center', 
+                                                gap: 0.5, 
+                                                boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)',
+                                                fontWeight: 700,
+                                                fontSize: '0.8rem'
                                             }}>
-                                                <AccessTimeIcon sx={{ fontSize: 14 }} />
-                                                <Typography variant="caption" fontWeight={700}>{formatTime(timeLeft)}</Typography>
+                                                <AccessTimeIcon sx={{ fontSize: 16 }} />
+                                                {formatTime(timeLeft)}
                                             </Box>
                                         </>
                                     ) : (
-                                        <Box sx={{ width: Math.min(180, windowSize * 0.4), height: Math.min(180, windowSize * 0.4), display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'text.disabled' }}>
-                                            <QrCodeScannerIcon sx={{ fontSize: 48, mb: 1, opacity: 0.5 }} />
-                                            <Typography variant="caption" fontWeight={500}>Ready to Generate</Typography>
+                                        <Box sx={{ 
+                                            width: Math.min(180, windowSize * 0.4), 
+                                            height: Math.min(180, windowSize * 0.4), 
+                                            display: 'flex', 
+                                            flexDirection: 'column', 
+                                            alignItems: 'center', 
+                                            justifyContent: 'center',
+                                            color: '#94a3b8'
+                                        }}>
+                                            <QrCodeScannerIcon sx={{ fontSize: 56, mb: 2, opacity: 0.6 }} />
+                                            <Typography variant="body2" fontWeight={600} sx={{ color: '#64748b' }}>
+                                                Ready to Generate
+                                            </Typography>
                                         </Box>
                                     )}
                                 </Box>
@@ -345,14 +455,16 @@ const StudentDashboard = () => {
                                 {/* Error Display */}
                                 {error && (
                                     <Box sx={{ 
-                                        mt: 2, 
-                                        p: 2, 
-                                        bgcolor: 'error.light', 
-                                        color: 'error.dark',
-                                        borderRadius: 2,
-                                        fontSize: '0.875rem',
-                                        fontWeight: 500,
-                                        textAlign: 'center'
+                                        mt: 3, 
+                                        p: 3, 
+                                        background: 'linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)',
+                                        border: '1px solid #fecaca',
+                                        borderRadius: 3,
+                                        fontSize: '0.9rem',
+                                        fontWeight: 600,
+                                        textAlign: 'center',
+                                        color: '#b91c1c',
+                                        boxShadow: '0 4px 12px rgba(239, 68, 68, 0.1)'
                                     }}>
                                         {error}
                                     </Box>
@@ -366,12 +478,33 @@ const StudentDashboard = () => {
                                     disabled={!!qrData}
                                     startIcon={!qrData ? <QrCodeScannerIcon /> : <CheckCircleIcon />}
                                     sx={{
-                                        mt: error ? 2 : 5,
-                                        borderRadius: 2,
-                                        py: 1.5,
-                                        bgcolor: qrData ? 'success.main' : 'primary.main',
-                                        boxShadow: qrData ? 'none' : 4,
-                                        '&:hover': { bgcolor: qrData ? 'success.dark' : 'primary.dark' }
+                                        mt: error ? 3 : 5,
+                                        borderRadius: 3,
+                                        py: 2,
+                                        fontSize: '1rem',
+                                        fontWeight: 700,
+                                        textTransform: 'none',
+                                        background: qrData 
+                                            ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
+                                            : 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                                        color: 'white',
+                                        boxShadow: qrData 
+                                            ? '0 4px 14px rgba(16, 185, 129, 0.3)'
+                                            : '0 6px 20px rgba(139, 92, 246, 0.3)',
+                                        '&:hover': { 
+                                            background: qrData 
+                                                ? 'linear-gradient(135deg, #059669 0%, #047857 100%)'
+                                                : 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)',
+                                            transform: 'translateY(-2px)',
+                                            boxShadow: qrData 
+                                                ? '0 8px 20px rgba(16, 185, 129, 0.4)'
+                                                : '0 10px 25px rgba(139, 92, 246, 0.4)'
+                                        },
+                                        '&:disabled': {
+                                            background: 'linear-gradient(135deg, #94a3b8 0%, #64748b 100%)',
+                                            boxShadow: 'none',
+                                            transform: 'none'
+                                        }
                                     }}
                                 >
                                     {qrData ? 'Token Active' : 'Generate Token'}
