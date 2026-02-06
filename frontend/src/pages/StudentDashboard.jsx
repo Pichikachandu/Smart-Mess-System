@@ -25,6 +25,7 @@ const StudentDashboard = () => {
     const [showActiveTokenDialog, setShowActiveTokenDialog] = useState(false);
     const [showHistoryDialog, setShowHistoryDialog] = useState(false);
     const [currentHistoryIndex, setCurrentHistoryIndex] = useState(0);
+    const [windowSize, setWindowSize] = useState(window.innerWidth);
 
     const isTicketExpired = (ticket) => {
         if (!ticket) return false;
@@ -75,6 +76,16 @@ const StudentDashboard = () => {
                 disconnectSocket();
             };
         }
+    }, []);
+
+    // Handle window resize for responsive QR code
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowSize(window.innerWidth);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     useEffect(() => {
@@ -212,7 +223,12 @@ const StudentDashboard = () => {
                                 >
                                     {qrData ? (
                                         <>
-                                            <QRCodeCanvas value={qrData} size={180} />
+                                            <QRCodeCanvas 
+                                                value={qrData} 
+                                                size={Math.min(180, windowSize * 0.4)} 
+                                                level="H"
+                                                includeMargin={true}
+                                            />
                                             <Tooltip title="Click to view full size">
                                                 <IconButton
                                                     sx={{ position: 'absolute', top: 8, right: 8, bgcolor: 'white', boxShadow: 1, '&:hover': { bgcolor: 'grey.100' } }}
@@ -231,7 +247,7 @@ const StudentDashboard = () => {
                                             </Box>
                                         </>
                                     ) : (
-                                        <Box sx={{ width: 180, height: 180, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'text.disabled' }}>
+                                        <Box sx={{ width: Math.min(180, windowSize * 0.4), height: Math.min(180, windowSize * 0.4), display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'text.disabled' }}>
                                             <QrCodeScannerIcon sx={{ fontSize: 48, mb: 1, opacity: 0.5 }} />
                                             <Typography variant="caption" fontWeight={500}>Ready to Generate</Typography>
                                         </Box>
@@ -567,7 +583,9 @@ const StudentDashboard = () => {
                 PaperProps={{
                     sx: {
                         borderRadius: 3,
-                        overflow: 'hidden'
+                        overflow: 'hidden',
+                        margin: { xs: 1, sm: 2 },
+                        maxHeight: '95vh'
                     }
                 }}
             >
@@ -579,17 +597,39 @@ const StudentDashboard = () => {
                 </Box>
 
                 {qrData && (
-                    <Box sx={{ p: 4, textAlign: 'center', bgcolor: 'background.paper' }}>
+                    <Box sx={{ 
+                        p: { xs: 2, sm: 4 }, 
+                        textAlign: 'center', 
+                        bgcolor: 'background.paper',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: 2
+                    }}>
                         <Box sx={{
-                            display: 'inline-block',
-                            p: 3,
-                            bgcolor: 'white',
-                            borderRadius: 2,
-                            border: '3px solid',
-                            borderColor: 'primary.main',
-                            boxShadow: 4
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: '100%',
+                            overflow: 'hidden'
                         }}>
-                            <QRCodeCanvas value={qrData} size={300} />
+                            <Box sx={{
+                                p: { xs: 2, sm: 3 },
+                                bgcolor: 'white',
+                                borderRadius: 2,
+                                border: '3px solid',
+                                borderColor: 'primary.main',
+                                boxShadow: 4,
+                                maxWidth: '100%',
+                                display: 'inline-block'
+                            }}>
+                                <QRCodeCanvas 
+                                    value={qrData} 
+                                    size={Math.min(300, windowSize * 0.8)} 
+                                    level="H"
+                                    includeMargin={true}
+                                />
+                            </Box>
                         </Box>
 
                         <Box sx={{ mt: 3, p: 2, bgcolor: 'error.light', borderRadius: 2, display: 'inline-flex', alignItems: 'center', gap: 1 }}>
