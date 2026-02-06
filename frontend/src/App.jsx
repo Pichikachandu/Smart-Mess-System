@@ -7,7 +7,6 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AdminDashboard from './pages/AdminDashboard';
 import StudentDashboard from './pages/StudentDashboard';
 import SupervisorDashboard from './pages/SupervisorDashboard';
-import SupervisorSettings from './pages/SupervisorSettings';
 
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import theme from './theme';
@@ -34,7 +33,6 @@ function App() {
             {/* Supervisor Routes */}
             <Route element={<ProtectedRoute allowedRoles={['SUPERVISOR']} />}>
               <Route path="/supervisor" element={<SupervisorDashboard />} />
-              <Route path="/supervisor/settings" element={<SupervisorSettings />} />
             </Route>
 
             <Route path="/" element={<Navigate to="/login" replace />} />

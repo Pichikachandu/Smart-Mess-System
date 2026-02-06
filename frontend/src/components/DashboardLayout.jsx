@@ -11,7 +11,6 @@ import HistoryIcon from '@mui/icons-material/History';
 import PeopleIcon from '@mui/icons-material/People';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import SettingsIcon from '@mui/icons-material/Settings';
 import AuthContext from '../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -107,7 +106,6 @@ const DashboardLayout = ({ children, title }) => {
         menuItems.push({ text: 'My Token', icon: <QrCodeIcon />, path: '/student' });
     } else if (user?.role === 'SUPERVISOR') {
         menuItems.push({ text: 'Scanner', icon: <QrCodeScannerIcon />, path: '/supervisor' });
-        menuItems.push({ text: 'Meal Settings', icon: <SettingsIcon />, path: '/supervisor/settings' });
     }
 
     const drawerContent = (
