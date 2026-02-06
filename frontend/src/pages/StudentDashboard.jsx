@@ -156,7 +156,7 @@ const StudentDashboard = () => {
             setTimeLeft(Math.floor((expires - now) / 1000));
             setError(''); // Clear any existing errors on success
         } catch (error) {
-            console.error('Failed to generate QR');
+            console.error('Failed to generate QR:', error);
             setError(error.response?.data?.message || 'Failed to generate QR code. Please try again.');
         }
     };

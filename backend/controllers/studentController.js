@@ -15,22 +15,34 @@ const getProfile = async (req, res) => {
 // @route   GET /api/student/generate-qr
 // @access  Private/Student
 const generateQrToken = async (req, res) => {
-    // Generate a secure random string
-    const payload = crypto.randomBytes(32).toString('hex');
+    try {
+        // Get meal type from query parameter
+        const { mealType } = req.query;
+        
+        // Validate meal type
+        if (!mealType || !['BREAKFAST', 'LUNCH', 'DINNER'].includes(mealType)) {
+            return res.status(400).json({ message: 'Valid meal type is required' });
+        }
 
-    // Set expiry (e.g., 5 minutes)
-    const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
+        // Generate a secure random string
+        const payload = crypto.randomBytes(32).toString('hex');
 
-    // Create or update token
-    // We can either simple create new, or update existing for this user
-    // For strictness, let's just create a new one. Cleanup might be needed later or TTL index.
-    await Token.create({
-        userId: req.user._id,
-        qrPayload: payload,
-        expiresAt
-    });
+        // Set expiry (e.g., 5 minutes)
+        const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
 
-    res.json({ payload, expiresAt });
+        // Create token with meal type
+        await Token.create({
+            userId: req.user._id,
+            qrPayload: payload,
+            mealType,
+            expiresAt
+        });
+
+        res.json({ payload, expiresAt, mealType });
+    } catch (error) {
+        console.error('Error generating QR token:', error);
+        res.status(500).json({ message: 'Failed to generate QR token' });
+    }
 };
 
 // @desc    Get meal history
