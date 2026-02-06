@@ -9,9 +9,9 @@ const getCurrentMealType = () => {
     const minutes = now.getMinutes();
     const time = hour + minutes / 60;
 
-    if (time >= 6 && time < 10.5) return 'BREAKFAST';
-    if (time >= 12 && time < 15.5) return 'LUNCH';
-    if (time >= 19 && time < 22.5) return 'DINNER';
+    if (time >= 6 && time < 10.0) return 'BREAKFAST';
+    if (time >= 12 && time < 14.0) return 'LUNCH';
+    if (time >= 18.5 && time < 22.0) return 'DINNER';
     return null;
 };
 
