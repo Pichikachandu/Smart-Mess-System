@@ -13,6 +13,11 @@ connectDB();
 const app = express();
 const server = http.createServer(app);
 
+// CORS configuration
+const allowedOrigins = [
+    'http://localhost:5173',
+    'https://smart-mess-sys.vercel.app',
+    process.env.FRONTEND_URL
 ].filter(Boolean); // Remove undefined values
 
 console.log('🌐 Allowed Origins for CORS:', allowedOrigins);
