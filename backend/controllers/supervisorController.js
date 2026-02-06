@@ -2,19 +2,6 @@ const User = require('../models/User');
 const Token = require('../models/Token');
 const MealLog = require('../models/MealLog');
 
-// Helper to determine current meal type based on time
-const getCurrentMealType = () => {
-    const now = new Date();
-    const hour = now.getHours();
-    const minutes = now.getMinutes();
-    const time = hour + minutes / 60;
-
-    if (time >= 6 && time < 10.0) return 'BREAKFAST';
-    if (time >= 12 && time < 14.0) return 'LUNCH';
-    if (time >= 18.5 && time < 22.0) return 'DINNER';
-    return null;
-};
-
 // @desc    Scan and validate QR
 // @route   POST /api/supervisor/scan
 // @access  Private/Supervisor
@@ -22,12 +9,6 @@ const validateMeal = async (req, res) => {
     const { qrPayload } = req.body;
     const supervisorId = req.user._id;
     const io = req.app.get('io');
-
-    const currentMeal = getCurrentMealType();
-
-    // If testing outside hours, you might want to force a type or remove this check
-    // For now, strict check, but fallback for demo:
-    const mealType = currentMeal || 'DINNER'; // Defaulting for demo purposes if outside hours
 
     try {
         // 1. Find Token
@@ -42,12 +23,15 @@ const validateMeal = async (req, res) => {
             return res.status(400).json({ status: 'DENIED', reason: 'Token Expired' });
         }
 
+        // 3. Use meal type from token (not from current time)
+        const mealType = token.mealType;
+
         const user = await User.findById(token.userId);
         if (!user) {
             return res.status(400).json({ status: 'DENIED', reason: 'User not found' });
         }
 
-        // 3. User Active Status
+        // 4. User Active Status
         if (!user.isActive) {
             const mealLog = await logMeal(user._id, mealType, supervisorId, 'DENIED', 'Account Disabled');
             // Emit real-time update
@@ -56,7 +40,7 @@ const validateMeal = async (req, res) => {
             return res.status(400).json({ status: 'DENIED', reason: 'Account Disabled' });
         }
 
-        // 4. Valid Meal Day check
+        // 5. Valid Meal Day check
         // Assuming validDays are ['MONDAY', 'TUESDAY'...]
         const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
         const today = days[new Date().getDay()];
@@ -69,7 +53,7 @@ const validateMeal = async (req, res) => {
             return res.status(400).json({ status: 'DENIED', reason: `Not valid for ${today}` });
         }
 
-        // 5. Check Duplicate
+        // 6. Check Duplicate
         // Check if a ALLOWED log exists for this user, date, and mealType
         const todayDateStr = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
 
@@ -88,7 +72,7 @@ const validateMeal = async (req, res) => {
             return res.status(400).json({ status: 'DENIED', reason: 'Already Consumed' });
         }
 
-        // 6. Success
+        // 7. Success
         const mealLog = await logMeal(user._id, mealType, supervisorId, 'ALLOWED', 'Access Granted');
 
         // Emit real-time update
