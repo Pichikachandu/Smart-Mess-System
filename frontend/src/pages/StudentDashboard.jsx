@@ -487,8 +487,6 @@ const StudentDashboard = () => {
             <Dialog
                 open={!!selectedTicket}
                 onClose={() => setSelectedTicket(null)}
-                maxWidth="sm"
-                fullWidth
                 PaperProps={{
                     sx: {
                         bgcolor: 'transparent',
@@ -500,239 +498,172 @@ const StudentDashboard = () => {
                 {selectedTicket && (
                     <Box sx={{
                         width: '100%',
-                        maxWidth: 450,
-                        height: 250,
+                        maxWidth: 400,
                         bgcolor: '#fff',
-                        borderRadius: 2,
+                        borderRadius: 3,
                         position: 'relative',
-                        overflow: 'hidden',
-                        boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
-                        fontFamily: "'Inter', sans-serif"
+                        // Ticket Shape with Side Notches
+                        background: 'radial-gradient(circle at 0 130px, transparent 12px, #fff 13px), radial-gradient(circle at 100% 130px, transparent 12px, #fff 13px)',
+                        // Shadow follows the shape
+                        filter: 'drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2))',
+                        fontFamily: "'Courier Prime', monospace"
                     }}>
-                        {/* Bus Ticket Header */}
-                        <Box sx={{
-                            height: 60,
-                            background: selectedTicket.mealType === 'DINNER'
-                                ? 'linear-gradient(90deg, #1e293b 0%, #3b82f6 100%)' // Dark Blue for Dinner
-                                : selectedTicket.mealType === 'LUNCH'
-                                    ? 'linear-gradient(90deg, #059669 0%, #10b981 100%)' // Emerald for Lunch
-                                    : 'linear-gradient(90deg, #ea580c 0%, #f97316 100%)', // Orange for Breakfast
-                            color: 'white',
-                            display: 'flex',
-                            alignItems: 'center',
-                            px: 3,
-                            position: 'relative'
-                        }}>
-                            {/* Ticket Tear Lines */}
-                            <Box sx={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 80,
-                                width: 2,
-                                height: 60,
-                                bgcolor: '#fff',
-                                clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)'
-                            }} />
-                            <Box sx={{
-                                position: 'absolute',
-                                top: 0,
-                                right: 80,
-                                width: 2,
-                                height: 60,
-                                bgcolor: '#fff',
-                                clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)'
-                            }} />
-
-                            <Box sx={{ flex: 1, textAlign: 'center' }}>
-                                <Typography variant="h6" fontWeight={800} sx={{ letterSpacing: 1, fontSize: '0.9rem' }}>
-                                    TJS MESS
-                                </Typography>
-                                <Typography variant="caption" sx={{ opacity: 0.8, fontSize: '0.7rem' }}>
-                                    OFFICIAL MEAL PASS
-                                </Typography>
-                            </Box>
-
-                            {/* Close Button */}
-                            <IconButton
-                                onClick={() => setSelectedTicket(null)}
-                                sx={{ position: 'absolute', top: 8, right: 8, color: 'white', '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' } }}
-                                size="small"
-                            >
-                                <CloseIcon fontSize="small" />
-                            </IconButton>
-                        </Box>
-
-                        {/* Main Ticket Body */}
-                        <Box sx={{ 
-                            display: 'flex', 
-                            height: 140,
-                            position: 'relative'
-                        }}>
-                            {/* Left Section - Passenger Info */}
-                            <Box sx={{ 
-                                flex: 1, 
-                                p: 2, 
-                                borderRight: '2px dashed #e5e7eb',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'space-between'
-                            }}>
-                                {/* Top Info */}
-                                <Box>
-                                    <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600, mb: 1 }}>
-                                        PASSENGER
-                                    </Typography>
-                                    <Typography variant="h6" fontWeight={800} color="text.primary" sx={{ fontSize: '1.1rem', lineHeight: 1.2 }}>
-                                        {user?.name}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.8rem' }}>
-                                        ID: {user?.userId} • {user?.department}
-                                    </Typography>
-                                </Box>
-
-                                {/* Bottom Info */}
-                                <Box>
-                                    <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600, mb: 0.5 }}>
-                                        MEAL TYPE
-                                    </Typography>
-                                    <Box sx={{
-                                        display: 'inline-block',
-                                        px: 2,
-                                        py: 1,
-                                        borderRadius: 1,
-                                        bgcolor: selectedTicket.mealType === 'DINNER'
-                                            ? '#dbeafe'
-                                            : selectedTicket.mealType === 'LUNCH'
-                                                ? '#d1fae5'
-                                                : '#fed7aa',
-                                        color: selectedTicket.mealType === 'DINNER'
-                                            ? '#1e293b'
-                                            : selectedTicket.mealType === 'LUNCH'
-                                                ? '#059669'
-                                                : '#ea580c',
-                                        fontWeight: 700,
-                                        fontSize: '0.8rem'
-                                    }}>
-                                        {selectedTicket.mealType}
-                                    </Box>
-                                </Box>
-                            </Box>
-
-                            {/* Middle Section - Ticket Info */}
-                            <Box sx={{ 
-                                width: 120, 
-                                p: 2, 
-                                borderRight: '2px dashed #e5e7eb',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                bgcolor: '#f8fafc'
-                            }}>
-                                <Box sx={{ textAlign: 'center' }}>
-                                    <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600, mb: 1 }}>
-                                        VALID ON
-                                    </Typography>
-                                    <Typography variant="h6" fontWeight={900} color="text.primary" sx={{ fontSize: '1rem' }}>
-                                        {new Date(selectedTicket.timestamp).toLocaleDateString('en-US', { day: '2-digit', month: 'short' })}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.8rem' }}>
-                                        {new Date(selectedTicket.timestamp).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
-                                    </Typography>
-                                </Box>
-                            </Box>
-
-                            {/* Right Section - Validation */}
-                            <Box sx={{ 
-                                width: 120, 
-                                p: 2, 
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                position: 'relative'
-                            }}>
-                                {/* Status Badge */}
-                                <Box sx={{
-                                    position: 'absolute',
-                                    top: -10,
-                                    left: '50%',
-                                    transform: 'translateX(-50%)'
-                                }}>
-                                    <Chip
-                                        label={selectedTicket.status}
-                                        size="small"
-                                        sx={{
-                                            height: 24,
-                                            fontWeight: 700,
-                                            borderRadius: '12px',
-                                            bgcolor: selectedTicket.status === 'ALLOWED' ? '#10b981' : '#ef4444',
-                                            color: 'white',
-                                            fontSize: '0.7rem'
-                                        }}
-                                    />
-                                </Box>
-
-                                <Box sx={{ textAlign: 'center', mt: 2 }}>
-                                    {selectedTicket.status === 'ALLOWED' ? (
-                                        <CheckCircleIcon sx={{ fontSize: 48, color: '#10b981', mb: 1 }} />
-                                    ) : (
-                                        <CancelIcon sx={{ fontSize: 48, color: '#ef4444', mb: 1 }} />
-                                    )}
-                                    <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>
-                                        {selectedTicket.status === 'ALLOWED' ? 'VERIFIED' : 'DENIED'}
-                                    </Typography>
-                                </Box>
-                            </Box>
-                        </Box>
-
-                        {/* Bottom Section - Footer */}
-                        <Box sx={{
-                            height: 50,
-                            background: 'linear-gradient(90deg, #f8fafc 0%, #e2e8f0 100%)',
-                            borderTop: '2px dashed #e5e7eb',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            px: 3
-                        }}>
-                            <Typography variant="caption" sx={{ fontFamily: 'monospace', opacity: 0.7, fontSize: '0.7rem' }}>
-                                REF: #{selectedTicket._id?.slice(-8).toUpperCase()}
-                            </Typography>
-                            <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600, fontSize: '0.7rem' }}>
-                                T.J.S ENGINEERING COLLEGE MESS
-                            </Typography>
-                            <Typography variant="caption" sx={{ fontFamily: 'monospace', opacity: 0.7, fontSize: '0.7rem' }}>
-                                {new Date(selectedTicket.timestamp).getFullYear()}
-                            </Typography>
-                        </Box>
-
                         {/* Expiration Overlay */}
                         {isExpired && (
                             <Box sx={{
                                 position: 'absolute',
                                 inset: 0,
                                 zIndex: 10,
-                                bgcolor: 'rgba(239, 68, 68, 0.9)',
+                                bgcolor: 'rgba(255,255,255,0.6)',
+                                backdropFilter: 'grayscale(100%) blur(1px)',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                backdropFilter: 'blur(2px)'
+                                pointerEvents: 'none'
                             }}>
                                 <Box sx={{
-                                    p: 3,
-                                    textAlign: 'center',
-                                    color: 'white'
+                                    border: '4px solid #ef4444',
+                                    color: '#ef4444',
+                                    p: 2,
+                                    transform: 'rotate(-15deg)',
+                                    borderRadius: 2,
+                                    bgcolor: 'rgba(255, 255, 255, 0.9)'
                                 }}>
-                                    <Typography variant="h4" fontWeight={900} sx={{ mb: 1 }}>
-                                        EXPIRED
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        This ticket is no longer valid
-                                    </Typography>
+                                    <Typography variant="h3" fontWeight={900} sx={{ letterSpacing: 2 }}>EXPIRED</Typography>
                                 </Box>
                             </Box>
                         )}
+
+                        {/* Colored Header */}
+                        <Box sx={{
+                            p: 3,
+                            pb: 4,
+                            textAlign: 'center',
+                            background: selectedTicket.mealType === 'DINNER'
+                                ? 'linear-gradient(135deg, #1e1b4b 0%, #4338ca 100%)' // Indigo for Dinner
+                                : selectedTicket.mealType === 'LUNCH'
+                                    ? 'linear-gradient(135deg, #0c4a6e 0%, #0284c7 100%)' // Sky Blue for Lunch
+                                    : 'linear-gradient(135deg, #7c2d12 0%, #ea580c 100%)', // Orange/Brown for Breakfast
+                            color: 'white',
+                            position: 'relative',
+                            borderTopLeftRadius: 12,
+                            borderTopRightRadius: 12
+                        }}>
+                            {/* Decorative Circles */}
+                            <Box sx={{ position: 'absolute', top: -20, left: -20, width: 80, height: 80, borderRadius: '50%', bgcolor: 'rgba(255,255,255,0.1)' }} />
+                            <Box sx={{ position: 'absolute', bottom: -10, right: -10, width: 60, height: 60, borderRadius: '50%', bgcolor: 'rgba(255,255,255,0.1)' }} />
+
+                            <IconButton
+                                onClick={() => setSelectedTicket(null)}
+                                sx={{ position: 'absolute', top: 8, right: 8, color: 'white', bgcolor: 'rgba(0,0,0,0.1)', '&:hover': { bgcolor: 'rgba(0,0,0,0.2)' } }}
+                                size="small"
+                                autoFocus
+                            >
+                                <CloseIcon fontSize="small" />
+                            </IconButton>
+
+                            <Typography variant="overline" sx={{ letterSpacing: 3, opacity: 0.9, fontWeight: 700 }}>T.J.S.E.C MESS</Typography>
+                            <Box sx={{ mt: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1 }}>
+                                <CheckCircleIcon sx={{ fontSize: 28, color: '#4ade80', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }} />
+                                <Typography variant="h5" fontWeight={800} sx={{ letterSpacing: 0.5, textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>AUTHORIZED</Typography>
+                            </Box>
+                        </Box>
+
+                        {/* Dashed Tear Line */}
+                        <Box sx={{
+                            position: 'absolute',
+                            top: 130,
+                            left: 12,
+                            right: 12,
+                            zIndex: 5,
+                            borderTop: '2px dashed #e2e8f0'
+                        }} />
+
+                        {/* Receipt Body */}
+                        <Box sx={{ p: 4, pt: 3 }}>
+                            {/* Meal Type - Center Focus (Colored) */}
+                            <Box sx={{ textAlign: 'center', mb: 3 }}>
+                                <Typography variant="caption" color="text.secondary" sx={{ letterSpacing: 2, fontWeight: 600 }}>MEAL SERVICE</Typography>
+                                <Typography variant="h3" fontWeight={900} sx={{
+                                    textTransform: 'uppercase',
+                                    mt: 0.5,
+                                    background: selectedTicket.mealType === 'DINNER'
+                                        ? 'linear-gradient(45deg, #1e1b4b, #4338ca)'
+                                        : selectedTicket.mealType === 'LUNCH'
+                                            ? 'linear-gradient(45deg, #0c4a6e, #0284c7)'
+                                            : 'linear-gradient(45deg, #7c2d12, #ea580c)',
+                                    WebkitBackgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent'
+                                }}>
+                                    {selectedTicket.mealType}
+                                </Typography>
+                            </Box>
+
+                            <Divider sx={{ mb: 3, borderStyle: 'dashed', borderColor: 'grey.300' }} />
+
+                            {/* Date & Time Block */}
+                            <Grid container spacing={2} sx={{ mb: 3 }}>
+                                <Grid size={{ xs: 6 }}>
+                                    <Box sx={{ pl: 1, borderLeft: '3px solid', borderColor: 'primary.light' }}>
+                                        <Typography variant="caption" color="text.secondary" fontWeight={600}>DATE</Typography>
+                                        <Typography variant="body2" fontWeight={700}>
+                                            {new Date(selectedTicket.timestamp).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                        </Typography>
+                                        <Typography variant="caption" fontWeight={600} color="primary.main">
+                                            {new Date(selectedTicket.timestamp).toLocaleDateString('en-US', { weekday: 'long' })}
+                                        </Typography>
+                                    </Box>
+                                </Grid>
+                                <Grid size={{ xs: 6 }} sx={{ textAlign: 'right' }}>
+                                    <Box sx={{ pr: 1, borderRight: '3px solid', borderColor: 'secondary.light' }}>
+                                        <Typography variant="caption" color="text.secondary" fontWeight={600}>TIME</Typography>
+                                        <Typography variant="body2" fontWeight={700}>
+                                            {new Date(selectedTicket.timestamp).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
+                                        </Typography>
+                                        <Typography variant="caption" fontWeight={600} color="secondary.main">checked-in</Typography>
+                                    </Box>
+                                </Grid>
+                            </Grid>
+
+                            {/* Info Grid */}
+                            <Grid container spacing={2}>
+                                {/* Student Details */}
+                                <Grid size={{ xs: 12 }}>
+                                    <Box sx={{ p: 2, bgcolor: '#f1f5f9', borderRadius: 2, border: '1px solid #e2e8f0' }}>
+                                        <Typography variant="caption" color="text.secondary" fontWeight={700} sx={{ letterSpacing: 0.5 }}>STUDENT</Typography>
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 0.5 }}>
+                                            <Box>
+                                                <Typography variant="subtitle2" fontWeight={800} color="text.primary">{user?.name}</Typography>
+                                                <Typography variant="caption" fontWeight={600} color="text.secondary">{user?.userId}</Typography>
+                                            </Box>
+                                            <Chip label={`Year ${user?.year}`} size="small" sx={{ bgcolor: 'white', fontWeight: 700, border: '1px solid #e2e8f0' }} />
+                                        </Box>
+                                    </Box>
+                                </Grid>
+
+                                {/* Supervisor Details */}
+                                <Grid size={{ xs: 12 }} sx={{ mt: 1 }}>
+                                    <Box sx={{ p: 1.5, border: '1px dashed #cbd5e1', borderRadius: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+                                        <Box sx={{ p: 1, bgcolor: 'primary.50', borderRadius: '50%', color: 'primary.main' }}>
+                                            <QrCodeScannerIcon fontSize="small" />
+                                        </Box>
+                                        <Box>
+                                            <Typography variant="caption" color="text.secondary" display="block">VERIFIED BY</Typography>
+                                            <Typography variant="body2" fontWeight={700} color="text.primary">
+                                                {selectedTicket.supervisorId?.name || 'SUPERVISOR'}
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                </Grid>
+                            </Grid>
+                        </Box>
+
+                        {/* Receipt Footer */}
+                        <Box sx={{ p: 2, bgcolor: '#0f172a', color: 'white', textAlign: 'center' }}>
+                            <Typography variant="caption" sx={{ fontFamily: 'monospace', opacity: 0.7, letterSpacing: 2 }}>
+                                #{selectedTicket._id?.slice(-8).toUpperCase()}
+                            </Typography>
+                        </Box>
                     </Box>
                 )}
             </Dialog>
