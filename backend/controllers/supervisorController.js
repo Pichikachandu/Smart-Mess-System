@@ -4,11 +4,15 @@ const MealLog = require('../models/MealLog');
 
 // Helper to determine current meal type based on time
 const getCurrentMealType = () => {
-    const hour = new Date().getHours();
-    if (hour >= 7 && hour < 11) return 'BREAKFAST';
-    if (hour >= 12 && hour < 16) return 'LUNCH';
-    if (hour >= 19 && hour < 22) return 'DINNER';
-    return null; // Or throw error if outside meal hours
+    const now = new Date();
+    const hour = now.getHours();
+    const minutes = now.getMinutes();
+    const time = hour + minutes / 60;
+
+    if (time >= 6 && time < 10.5) return 'BREAKFAST';
+    if (time >= 12 && time < 15.5) return 'LUNCH';
+    if (time >= 19 && time < 22.5) return 'DINNER';
+    return null;
 };
 
 // @desc    Scan and validate QR

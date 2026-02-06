@@ -203,9 +203,9 @@ smartmess/
 ## 🚦 Token Expiration Logic
 
 Tokens automatically expire based on meal times:
-- **Breakfast**: Expires at 11:00 AM
-- **Lunch**: Expires at 4:00 PM
-- **Dinner**: Expires at 10:00 PM
+- **Breakfast**: 06:00 AM - 10:30 AM
+- **Lunch**: 12:00 PM - 03:30 PM
+- **Dinner**: 07:00 PM - 10:30 PM
 
 ## 🤝 Contributing
 
