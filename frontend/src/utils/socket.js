@@ -8,14 +8,20 @@ export const initializeSocket = (token) => {
     }
 
     const BACKEND_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    // Ensure no trailing slash in BACKEND_URL for socket.io-client
+    const cleanUrl = BACKEND_URL.replace(/\/$/, "");
+    console.log('Connecting to socket at:', cleanUrl);
 
-    socket = io(BACKEND_URL, {
+    socket = io(cleanUrl, {
         auth: {
             token
         },
+        path: '/socket.io',
         transports: ['polling', 'websocket'],
+        secure: cleanUrl.startsWith('https'),
+        addTrailingSlash: false,
         reconnection: true,
-        reconnectionAttempts: 5,
+        reconnectionAttempts: 10,
         reconnectionDelay: 1000,
         autoConnect: true
     });

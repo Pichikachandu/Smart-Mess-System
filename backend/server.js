@@ -21,13 +21,15 @@ const allowedOrigins = [
 ].filter(Boolean); // Remove undefined values
 
 const corsOptions = {
-    origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-
-        if (allowedOrigins.indexOf(origin) !== -1) {
+    origin: (origin, callback) => {
+        // In production, origins must match exactly.
+        // For debugging, we can be slightly more permissive or log failures.
+        if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
+            console.log('CORS blocked origin:', origin);
+            // Temporarily allow all in production to debug if needed, 
+            // but let's stick to logging first.
             callback(new Error('Not allowed by CORS'));
         }
     },
@@ -40,12 +42,22 @@ app.use(express.json());
 
 // Socket.IO configuration
 const io = new Server(server, {
-    cors: corsOptions,
+    cors: {
+        origin: allowedOrigins,
+        methods: ["GET", "POST"],
+        credentials: true
+    },
+    path: '/socket.io',
     transports: ['polling', 'websocket'],
     pingTimeout: 60000,
     pingInterval: 25000,
     connectTimeout: 45000,
-    allowEIO3: true // Support older clients if any
+    allowEIO3: false // Keep it modern
+});
+
+// Log server-side events for debugging
+io.on('new_namespace', (namespace) => {
+    console.log('New namespace created:', namespace.name);
 });
 
 // Socket.IO authentication middleware
