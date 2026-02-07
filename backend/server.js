@@ -17,6 +17,7 @@ const server = http.createServer(app);
 const allowedOrigins = [
     'http://localhost:5173',
     'https://smart-mess-sys.vercel.app',
+    'https://smart-mess-iota.vercel.app', // Added your frontend URL
     process.env.FRONTEND_URL
 ].filter(Boolean); // Remove undefined values
 
@@ -45,7 +46,7 @@ app.use(express.json());
 // Socket.IO configuration
 const io = new Server(server, {
     cors: {
-        origin: "*", // Relaxed for debugging 404s
+        origin: allowedOrigins, // Use same allowed origins
         methods: ["GET", "POST"],
         credentials: true
     },
