@@ -97,80 +97,6 @@ const StudentDashboard = () => {
         }
     }, []);
 
-    // Add CSS animations to document head
-useEffect(() => {
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes move {
-                0% { transform: translateX(0); }
-                100% { transform: translateX(28px); }
-            }
-            
-            @keyframes pulse {
-                0% { opacity: 0.3; }
-                50% { opacity: 0.8; }
-                100% { opacity: 0.3; }
-            }
-            
-            /* Prevent screenshots on all platforms */
-            * {
-                -webkit-touch-callout: none;
-                -webkit-user-select: none;
-                -khtml-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-                -webkit-tap-highlight-color: transparent;
-                -webkit-tap-highlight-color: transparent;
-            }
-            
-            /* Disable print and save */
-            @media print {
-                body { display: none !important; }
-                * { display: none !important; }
-            }
-            
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
-                20%, 40%, 60%, 80% { transform: translateX(2px); }
-            }
-        `;
-        document.head.appendChild(style);
-        
-        return () => {
-            document.head.removeChild(style);
-        };
-    }, []);
-
-    // Add keyboard shortcuts for security
-    useEffect(() => {
-        const handleKeyDown = (e) => {
-            // Prevent common screenshot shortcuts
-            if ((e.key === 'PrintScreen') || 
-                (e.ctrlKey && e.key === 'p') || 
-                (e.metaKey && e.shiftKey && e.key === '4') ||
-                (e.ctrlKey && e.shiftKey && e.key === '4')) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-            
-            // Detect developer tools (F12, Ctrl+Shift+I, etc.)
-            if (e.key === 'F12' || 
-                (e.ctrlKey && e.shiftKey && e.key === 'I') ||
-                (e.metaKey && e.altKey && e.key === 'I')) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-        };
-
-        document.addEventListener('keydown', handleKeyDown);
-        
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        };
-    }, []);
-
     // Handle window resize for responsive QR code
     useEffect(() => {
         const handleResize = () => {
@@ -774,53 +700,15 @@ useEffect(() => {
                         flexDirection: 'column',
                         alignItems: 'center',
                         gap: 2,
-                        minHeight: { xs: '60vh', sm: 'auto' },
-                        userSelect: 'none', // Prevent text selection
-                        WebkitUserSelect: 'none',
-                        MozUserSelect: 'none',
-                        msUserSelect: 'none',
-                        position: 'relative' // For overlay positioning
+                        minHeight: { xs: '60vh', sm: 'auto' }
                     }}>
-                        {/* Anti-screenshot overlay */}
-                        <Box sx={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            background: 'rgba(255,255,255,0.1)',
-                            display: { xs: 'block', sm: 'none' }, // Only show on mobile
-                            backdropFilter: 'blur(1px)',
-                            zIndex: 1000,
-                            pointerEvents: 'none'
-                        }}>
-                            <Typography sx={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                color: 'rgba(0,0,0,0.6)',
-                                fontSize: '0.8rem',
-                                fontWeight: 600,
-                                textAlign: 'center',
-                                p: 2,
-                                borderRadius: 1,
-                                background: 'rgba(255,255,255,0.9)',
-                                border: '1px solid rgba(255,255,255,0.3)'
-                            }}>
-                                ⚠️ Screenshots Disabled
-                            </Typography>
-                        </Box>
-                        
                         <Box sx={{
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
                             width: '100%',
                             overflow: 'hidden',
-                            flex: 1,
-                            filter: 'blur(0.5px)', // Slight blur to deter screenshots
-                            position: 'relative'
+                            flex: 1
                         }}>
                             <Box sx={{
                                 p: { xs: 1.5, sm: 3 },
@@ -831,44 +719,13 @@ useEffect(() => {
                                 boxShadow: 4,
                                 maxWidth: '100%',
                                 display: 'inline-block',
-                                transform: { xs: 'scale(0.9)', sm: 'scale(1)' },
-                                position: 'relative',
-                                overflow: 'hidden'
+                                transform: { xs: 'scale(0.9)', sm: 'scale(1)' }
                             }}>
-                                {/* Animated pattern overlay */}
-                                <Box sx={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    right: 0,
-                                    bottom: 0,
-                                    backgroundImage: `repeating-linear-gradient(
-                                        45deg,
-                                        transparent,
-                                        transparent 10px,
-                                        rgba(0,0,0,0.03) 10px,
-                                        transparent 10px,
-                                        rgba(0,0,0,0.03) 10px,
-                                        transparent 10px,
-                                        rgba(0,0,0,0.03) 10px,
-                                        transparent 10px,
-                                        rgba(0,0,0,0.03) 10px
-                                    )`,
-                                    backgroundSize: '28px 28px',
-                                    animation: 'move 1s linear infinite',
-                                    pointerEvents: 'none',
-                                    zIndex: 1
-                                }} />
-                                
                                 <QRCodeCanvas 
                                     value={qrData} 
                                     size={Math.min(280, windowSize * 0.75)} 
                                     level="H"
                                     includeMargin={true}
-                                    style={{
-                                        filter: 'contrast(1.1) brightness(1.05)', // Slight visual alteration
-                                        transform: 'rotate(0.5deg)' // Tiny rotation to disrupt screenshots
-                                    }}
                                 />
                             </Box>
                         </Box>
