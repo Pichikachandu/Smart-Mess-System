@@ -678,12 +678,13 @@ const StudentDashboard = () => {
                     sx: {
                         borderRadius: 3,
                         overflow: 'hidden',
-                        margin: { xs: 1, sm: 2 },
-                        maxHeight: '95vh'
+                        margin: { xs: 0.5, sm: 2 },
+                        maxHeight: '98vh',
+                        width: { xs: '95vw', sm: 'auto' }
                     }
                 }}
             >
-                <Box sx={{ p: 3, bgcolor: 'primary.main', color: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Box sx={{ p: { xs: 2, sm: 3 }, bgcolor: 'primary.main', color: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography variant="h6" fontWeight={700}>Active Token</Typography>
                     <IconButton onClick={() => setShowActiveTokenDialog(false)} sx={{ color: 'white' }} size="small">
                         <CloseIcon />
@@ -692,48 +693,51 @@ const StudentDashboard = () => {
 
                 {qrData && (
                     <Box sx={{ 
-                        p: { xs: 2, sm: 4 }, 
+                        p: { xs: 1.5, sm: 4 }, 
                         textAlign: 'center', 
                         bgcolor: 'background.paper',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        gap: 2
+                        gap: 2,
+                        minHeight: { xs: '60vh', sm: 'auto' }
                     }}>
                         <Box sx={{
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
                             width: '100%',
-                            overflow: 'hidden'
+                            overflow: 'hidden',
+                            flex: 1
                         }}>
                             <Box sx={{
-                                p: { xs: 2, sm: 3 },
+                                p: { xs: 1.5, sm: 3 },
                                 bgcolor: 'white',
                                 borderRadius: 2,
                                 border: '3px solid',
                                 borderColor: 'primary.main',
                                 boxShadow: 4,
                                 maxWidth: '100%',
-                                display: 'inline-block'
+                                display: 'inline-block',
+                                transform: { xs: 'scale(0.9)', sm: 'scale(1)' }
                             }}>
                                 <QRCodeCanvas 
                                     value={qrData} 
-                                    size={Math.min(300, windowSize * 0.8)} 
+                                    size={Math.min(280, windowSize * 0.75)} 
                                     level="H"
                                     includeMargin={true}
                                 />
                             </Box>
                         </Box>
 
-                        <Box sx={{ mt: 3, p: 2, bgcolor: 'error.light', borderRadius: 2, display: 'inline-flex', alignItems: 'center', gap: 1 }}>
-                            <AccessTimeIcon sx={{ color: 'error.main' }} />
-                            <Typography variant="h5" fontWeight={700} color="error.main">
+                        <Box sx={{ mt: 2, p: { xs: 1.5, sm: 2 }, bgcolor: 'error.light', borderRadius: 2, display: 'inline-flex', alignItems: 'center', gap: 1 }}>
+                            <AccessTimeIcon sx={{ color: 'error.main', fontSize: { xs: 20, sm: 24 } }} />
+                            <Typography variant="h6" fontWeight={700} color="error.main">
                                 {formatTime(timeLeft)}
                             </Typography>
                         </Box>
 
-                        <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+                        <Typography variant="body2" color="text.secondary" sx={{ mt: 1, fontSize: { xs: '0.8rem', sm: '1rem' } }}>
                             Scan this code at the entrance
                         </Typography>
                     </Box>
